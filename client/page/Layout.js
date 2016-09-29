@@ -12,10 +12,10 @@ export default class Layout extends Component {
     } = this.props
 
     return (
-        <div class="pure-g">
-          <div class="pure-u-1-3">{children}</div>
-          <div class="pure-u-1-3"><p>三分之一</p></div>
-          <div class="pure-u-1-3"><p>三分之一</p></div>
+        <div className={"pure-g"}>
+          <div className={"pure-u-1-3"}>{children}</div>
+          <div className={"pure-u-1-3"}><p>三分之一</p></div>
+          <div className={"pure-u-1-3"}><p>三分之一</p></div>
         </div>
     )
   }

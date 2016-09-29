@@ -1,17 +1,27 @@
 import path from "path"
 import webpack from "webpack"
 import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
 
 import isomorphicToolsConfig from '../isomorphic.tools.config'
+import {client} from '../../config'
 
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(isomorphicToolsConfig)
+
+const cssLoader = [
+  'css?modules',
+  'sourceMap',
+  'importLoaders=1'
+].join('&')
+
+console.log(webpackIsomorphicToolsPlugin.regular_expression('styles'))
 
 const config = {
   // 项目根目录
   context: path.join(__dirname, '../../'),
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    `webpack-hot-middleware/client?reload=true&path=http://localhost:8888/__webpack_hmr`,
+    `webpack-hot-middleware/client?reload=true&path=http://${client.host}:${client.port}/__webpack_hmr`,
     './client/index.js'
   ],
   output: {
@@ -29,7 +39,7 @@ const config = {
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('styles'),
-        loader: "style!css",
+        loader: ExtractTextPlugin.extract('style', `${cssLoader}`)
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('images'),
@@ -39,6 +49,9 @@ const config = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin('[name].css', {
+      allChunks: true
+    }),
     webpackIsomorphicToolsPlugin
   ]
 }
