@@ -9,7 +9,6 @@ const configureStoreProd = (initialState = {}) => {
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      console.log(111)
       const nextReducer = require('../reducers').default // eslint-disable-line
       store.replaceReducer(nextReducer)
     })

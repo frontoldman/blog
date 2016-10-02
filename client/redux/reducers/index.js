@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
-import calc from "./calc";
+import home from "./home/";
 
 const rootReducer = combineReducers({
-  calc,
+  home,
   routing: routerReducer
 })
 

@@ -1,17 +1,36 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component, PropTypes} from "react"
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
 
-export default class Home extends Component {
+import {getRepository} from '../redux/actions/home/'
+
+class Home extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    return (<div>
-      <ul>
-        <li><Link to="/home">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-      </ul>
+    const { repositoryList } = this.props
+
+    return (<div className="pure-g">
+      {
+        repositoryList.map((repository, index) => {
+          return (<div className={'pure-u-1-4'} key={index}>{repository.name}</div>)
+        })
+      }
     </div>)
   }
 }
+
+
+function mapStateToProps(state, ownProps){
+  return {
+    repositoryList: state.home.repositoryList
+  }
+}
+
+export default connect(mapStateToProps, {
+  getRepository
+})(Home)
+
+
