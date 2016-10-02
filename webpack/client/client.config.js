@@ -1,20 +1,25 @@
-import path from "path"
-import webpack from "webpack"
-import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
-
-import isomorphicToolsConfig from '../isomorphic.tools.config'
-import {client} from '../../config'
+import path from "path";
+import webpack from "webpack";
+import WebpackIsomorphicToolsPlugin from "webpack-isomorphic-tools/plugin";
+import ExtractTextPlugin from "extract-text-webpack-plugin";
+import isomorphicToolsConfig from "../isomorphic.tools.config";
+import {client} from "../../config";
 
 const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(isomorphicToolsConfig)
 
 const cssLoader = [
   'css?modules',
   'sourceMap',
-  'importLoaders=1'
+  'importLoaders=1',
+  'localIdentName=[name]__[local]___[hash:base64:5]'
 ].join('&')
 
-console.log(webpackIsomorphicToolsPlugin.regular_expression('styles'))
+const cssLoader2 = [
+  'css?modules',
+  'sourceMap',
+  'importLoaders=1',
+  'localIdentName=[local]'
+].join('&')
 
 const config = {
   // 项目根目录
@@ -33,13 +38,20 @@ const config = {
   module: {
     loaders: [
       {
-        test : /\.js$/,
+        test: /\.js$/,
         loader: 'babel',
-        exclude : [/node_modules/]
+        exclude: [/node_modules/]
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('styles'),
+        exclude: [/node_modules/],
         loader: ExtractTextPlugin.extract('style', `${cssLoader}`)
+      },
+
+      {
+        test: webpackIsomorphicToolsPlugin.regular_expression('styles'),
+        include: [/node_modules/],
+        loader: ExtractTextPlugin.extract('style', `${cssLoader2}`)
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('images'),
