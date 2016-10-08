@@ -6,10 +6,13 @@ import Koa from 'koa'
 
 import {server} from '../../config'
 import handleRender from './handleRender'
+import router from '../../server/'
 
 var app = Koa()
 
+app.use(router.routes())
 app.use(handleRender)
+
 
 app.listen(server.port, error => {
   if(error){

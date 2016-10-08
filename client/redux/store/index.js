@@ -1,8 +1,11 @@
-import {createStore, compose} from "redux";
+import {createStore, compose, applyMiddleware} from "redux";
+import thunk from 'redux-thunk'
 import rootReducer from "../reducers";
 
 const configureStoreProd = (initialState = {}) => {
-  const finalCreateStore = compose()(createStore)
+  const finalCreateStore = compose(
+    applyMiddleware(thunk)
+  )(createStore)
 
   const store = finalCreateStore(rootReducer, initialState)
 
