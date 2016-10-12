@@ -2,7 +2,7 @@
  * Created by zhangran on 16/10/8.
  */
 
-import constants from '../../constants/'
+import constants from "../../constants/";
 
 const config = {
   credentials: 'include'
@@ -11,13 +11,27 @@ const config = {
 export function startRelease(params) {
   return dispatch => {
     dispatch({type: constants.REPOSITORY_RELEASE_START})
-    start(params)
-      .then(response => {
-          return response.json()
+
+    var evtSource = new EventSource(`/api/release/${params.id}`, {
+      withcredentials: true
+    })
+
+    evtSource.onmessage = function (event) {
+      dispatch({
+        type: constants.PACK_DETAIL,
+        data: event.data
       })
-      .then(resJson => {
-        dispatch({type: constants.REPOSITORY_RELEASE_SUCCESS})
-      })
+    }
+
+    evtSource.onerror = function(event) {
+      evtSource.close()
+    };
+
+    evtSource.onopen = function(event) {
+      console.log(event)
+    };
+
+    // start(params)
 
   }
 }
@@ -26,7 +40,7 @@ export function startRelease(params) {
 function start(param) {
   return fetch(`/api/release/${param.id}`, {
     ...config,
-    method:'POST',
+    method: 'POST',
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     }

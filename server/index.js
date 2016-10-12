@@ -1,12 +1,13 @@
 /**
  * Created by zhangran on 16/10/8.
  */
+import { PassThrough } from 'stream'
+import { exec } from 'child_process'
+import route from 'koa-router'
 
-import route from "koa-router";
+const router = route()
 
-var router = route()
-
-router.post('/api/release/:id', function*(next) {
+router.get('/login', function*(next) {
   
 })
 

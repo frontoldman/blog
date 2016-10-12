@@ -1,7 +1,5 @@
 import koa from "koa";
-import render from "koa-ejs";
 import webpack from "webpack";
-import path from "path";
 import koaWebpackDevMiddleware from "koa-webpack-dev-middleware";
 import koaWebpackHotMiddleware from "koa-webpack-hot-middleware";
 import {client} from '../../config'
@@ -17,17 +15,6 @@ app.use(koaWebpackDevMiddleware(compile, {
 }))
 app.use(koaWebpackHotMiddleware(compile))
 
-render(app, {
-  root: path.join(__dirname, '../../client'),
-  layout: false,
-  viewExt: 'html',
-  cache: false,
-  debug: true
-});
-
-app.use(function *(next) {
-  yield this.render('index');
-})
 
 app.listen(client.port, error => {
   if (error) {
