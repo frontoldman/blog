@@ -2,12 +2,19 @@
  * Created by zhangran on 16/10/12.
  */
 
-var mongoose = require('mongoose');
-var settings = require("../../config");
+import mongoose from 'mongoose'
+import { db } from '../../config'
 
-function db(fn){
-  var connection = mongoose.connect(settings.db.url,fn);
+function startDB(fn){
+  var connection = mongoose.connect(db.url, error => {
+    if(error){
+      console.log(error)
+      return
+    }
+    console.log(`connect to db on ${db.url}`)
+    fn()
+  });
   global.connection = connection;
 }
 
-module.exports = db;
+module.exports = startDB;

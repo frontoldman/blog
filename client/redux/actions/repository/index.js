@@ -3,7 +3,7 @@
  */
 import constants from '../../constants/'
 
-export function getRepository() {
+export function getRepository () {
   return dispatch => dispatch({
     type: constants.GET_REPOSITORY
   })

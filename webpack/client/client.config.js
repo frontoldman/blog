@@ -36,6 +36,13 @@ const config = {
     chunkFilename: '[name]-[chunkhash:8].js'
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      }
+    ],
     loaders: [
       {
         test: /\.js$/,
@@ -47,7 +54,6 @@ const config = {
         exclude: [/node_modules/],
         loader: ExtractTextPlugin.extract('style', `${cssLoader}`)
       },
-
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('styles'),
         include: [/node_modules/],
