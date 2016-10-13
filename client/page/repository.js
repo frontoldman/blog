@@ -1,16 +1,15 @@
-import React, {Component, PropTypes} from "react"
-import { connect } from 'react-redux'
-import { Link } from 'react-router'
-
+import {Component} from 'react'
+import {connect} from 'react-redux'
+import {Link} from 'react-router'
 import {getRepository} from '../redux/actions/repository/'
 
 class Repository extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
   }
 
   render() {
-    const { repositoryList } = this.props
+    const {repositoryList} = this.props
 
     return (<div className="pure-g">
       {
@@ -25,7 +24,7 @@ class Repository extends Component {
 }
 
 
-function mapStateToProps(state, ownProps){
+function mapStateToProps(state, ownProps) {
   return {
     repositoryList: state.repository.repositoryList
   }
