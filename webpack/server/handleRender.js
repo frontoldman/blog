@@ -1,13 +1,13 @@
 /**
  * Created by zhangran on 16/9/22.
  */
-import React from "react";
-import {renderToString} from "react-dom/server";
-import {match, RouterContext} from "react-router";
-import {Provider} from "react-redux";
-import configureStore from "../../client/redux/store";
-import routes from "../../client/routes";
-import Html from "./Html";
+import React from 'react'
+import {renderToString} from 'react-dom/server'
+import {match, RouterContext} from 'react-router'
+import {Provider} from 'react-redux'
+import configureStore from '../../client/redux/store'
+import routes from '../../client/routes'
+import Html from './Html'
 
 const handleRender = function *(ctx) {
 

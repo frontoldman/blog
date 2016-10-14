@@ -1,12 +1,12 @@
-import React from "react"
-import {Route, IndexRoute} from "react-router"
-import Layout from "../page/Layout"
-import Repository from "../page/Repository"
+import React, { Component } from 'react'
+import {Route, IndexRoute} from 'react-router'
+import Layout from '../page/Layout'
+import Login from '../page/Login'
 
 export default (
   <Route path="/" component={Layout}>
-    <IndexRoute component={Repository}/>
-    <Route path="repository" component={Repository}>
+    <IndexRoute component={Login}/>
+    <Route path="login" component={Login}>
     </Route>
   </Route>
 )

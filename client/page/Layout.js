@@ -1,12 +1,8 @@
-import React, {Component, PropTypes} from "react";
-import "purecss";
+import React, { Component } from 'react'
+import 'primer-css/build/build.css'
 
 export default class Layout extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
+  render () {
     const {
       children
     } = this.props
@@ -17,5 +13,4 @@ export default class Layout extends Component {
       </div>
     )
   }
-
 }
