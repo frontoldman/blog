@@ -13,6 +13,7 @@
     // allow paren-less arrow functions
     "arrow-parens": 0,
     "no-extra-parens": 0,
-    "react/jsx-uses-vars": 1
+    "react/jsx-uses-vars": 1,
+    "react/jsx-uses-react": "error"
   }
 }
