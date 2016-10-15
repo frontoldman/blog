@@ -1,16 +1,16 @@
 var router = require('koa-router')()
 var crypto = require('crypto')
-var util = require('../util/index')
+var util = require('../../util/index')
 var UserGroup = require('../model/UserGroup')
 var User = require('../model/User')
 
 // 添加userGroup
 router.post('/group', function *(next) {
-  var body = this.request.body
-  var userGroup = yield UserGroup.create({
-    name: body.name,
-    creater: this.session.user._id
-  })
+  var body = this.request.body,
+    userGroup = yield UserGroup.create({
+      name: body.name,
+      creater: this.session.user._id
+    })
 
   this.body = {code: 1000}
 })
