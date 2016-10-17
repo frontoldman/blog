@@ -1,10 +1,10 @@
-import { combineReducers } from "redux";
-import { routerReducer } from "react-router-redux";
-import repository from "./repository/";
+import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
+import { group } from './group/'
 
 const rootReducer = combineReducers({
-  repository,
-  routing: routerReducer
+  routing: routerReducer,
+  group
 })
 
 export default rootReducer

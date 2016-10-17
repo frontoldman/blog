@@ -3,11 +3,25 @@
  */
 
 import Koa from 'koa'
+import bodyParser from 'koa-bodyparser'
+import logger from 'koa-logger'
+import session from 'koa-session-store'
+import MongooseStore from 'koa-session-mongoose'
+
 import {server} from '../../config'
 import handleRender from './handleRender'
 import router from '../../server//router/'
 
 var app = Koa()
+
+// cookie签名
+app.keys = ['gg', 'fat gg']
+
+app.use(logger())
+app.use(session({
+  store: new MongooseStore()
+}))
+app.use(bodyParser())
 
 app.use(router.routes())
 app.use(handleRender)
