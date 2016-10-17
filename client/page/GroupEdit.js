@@ -7,16 +7,27 @@ import {connect} from 'react-redux'
 import {getRepository} from '../redux/actions/repository/'
 
 class GroupList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+    this.save = this.save.bind(this)
+  }
+
+  save (event) {
+    event.preventDefault()
+    console.log(this.state)
+  }
+
   render () {
     return (<div className="group-form">
-      <form>
+      <form onSubmit={this.save}>
         <dl className="form-group">
           <dt><label>用户组名称</label></dt>
-          <dd><input className="form-control" type="text" placeholder="输入用户组名称" /></dd>
+          <dd><input className="form-control" onChange={ e => (this.state.groupName = e.target.value)} type="text" placeholder="输入用户组名称" /></dd>
         </dl>
         <dl className="form-group">
           <dt><label>用户组描述</label></dt>
-          <dd><input className="form-control" type="text" placeholder="输入用户组描述" /></dd>
+          <dd><input className="form-control" onChange={ e => (this.state.groupDes = e.target.value)} type="text" placeholder="输入用户组描述" /></dd>
         </dl>
         <dl className="form-group">
           <dd>
