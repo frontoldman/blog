@@ -2,10 +2,9 @@
  * Created by zhangran on 16/10/17.
  */
 
-import {browserHistory} from 'react-router'
+// import {browserHistory} from 'react-router'
 
 module.exports = function (url, fetchConfig) {
-
   const config = {
     credentials: 'include'
   }

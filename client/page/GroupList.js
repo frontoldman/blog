@@ -3,8 +3,7 @@
  */
 
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import {getRepository} from '../redux/actions/repository/'
+import { connect } from 'react-redux'
 
 class GroupList extends Component {
   render () {
@@ -34,5 +33,4 @@ function mapStateToProps (state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  getRepository
 })(GroupList)

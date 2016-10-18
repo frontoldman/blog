@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import { browserHistory } from 'react-router'
 import { addGroup } from '../redux/actions/group/'
 
 class GroupEdit extends Component {
@@ -18,7 +19,15 @@ class GroupEdit extends Component {
     const { name, des } = this.state
     event.preventDefault()
     addGroup(name, des)
-      .then(data => console.log(data))
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { groupChanged } = nextProps
+    switch (groupChanged.status) {
+      case 2:
+        setTimeout(() => browserHistory.push('/admin/group/'))
+        break
+    }
   }
 
   renderLoding () {
@@ -37,7 +46,6 @@ class GroupEdit extends Component {
           保存失败
         </div>)
     }
-
   }
 
   render () {
@@ -50,7 +58,9 @@ class GroupEdit extends Component {
         </dl>
         <dl className="form-group">
           <dt><label>用户组描述</label></dt>
-          <dd><input className="form-control" onChange={ e => (this.state.des = e.target.value)} type="text" placeholder="输入用户组描述" /></dd>
+          <dd>
+            <textarea className="form-control" onChange={ e => (this.state.des = e.target.value)} placeholder="输入用户组描述"></textarea>
+          </dd>
         </dl>
         <dl className="form-group">
           <dd>

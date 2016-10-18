@@ -5,6 +5,8 @@
 import {combineReducers} from 'redux'
 import constants from '../../constants/'
 
+const { group } = constants
+
 var groupInitState = {
   status: 0,  // 0: 正常状态 1: 开始保存 2: 保存成功 3: 保存失败
   detail: null
@@ -16,8 +18,10 @@ var groupInitState = {
  */
 function changed (state = groupInitState, action) {
   switch (action.type) {
-    case constants.group.add:
+    case group.START_ADD:
       return {...state, status: 1}
+    case group.ADD_SUCCESS:
+      return {...state, status: 2}
   }
 
   return state

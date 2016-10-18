@@ -4,7 +4,6 @@
 
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {getRepository} from '../redux/actions/repository/'
 
 class Login extends Component {
   render () {
@@ -32,5 +31,4 @@ function mapStateToProps (state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  getRepository
 })(Login)

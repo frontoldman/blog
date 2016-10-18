@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {Route, IndexRoute, Redirect} from 'react-router'
 import Layout from '../page/Layout'
 import Login from '../page/Login'

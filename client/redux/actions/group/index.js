@@ -9,7 +9,7 @@ export function addGroup (name, des) {
     dispatch({type: constants.group.START_ADD})
     add(name, des)
       .then(data => {
-        dispatch({type: constants.group.START_ADD})
+        dispatch({type: constants.group.ADD_SUCCESS})
       })
   }
 }

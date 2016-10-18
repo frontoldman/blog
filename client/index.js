@@ -2,7 +2,7 @@
  * Created by zhangran on 16/9/9.
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import {browserHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
