@@ -17,20 +17,27 @@ class GroupEdit extends Component {
     const { addGroup } = this.props
     const { name, des } = this.state
     event.preventDefault()
-    this.setState({
-      isLoading: true
-    })
     addGroup(name, des)
       .then(data => console.log(data))
   }
 
   renderLoding () {
-    var { isLoading } = this.state
-    if (isLoading) {
-      return (<div className="flash">
-        正在提交...
-      </div>)
+    var { status } = this.props.groupChanged
+    switch (status) {
+      case 1:
+        return (<div className="flash">
+          正在提交...
+        </div>)
+      case 2:
+        return (<div className="flash">
+          保存成功
+        </div>)
+      case 3:
+        return (<div className="flash">
+          保存失败
+        </div>)
     }
+
   }
 
   render () {
@@ -57,7 +64,7 @@ class GroupEdit extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    loginStatus: state.loginStatus
+    groupChanged: state.group.changed
   }
 }
 

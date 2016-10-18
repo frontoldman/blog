@@ -1,5 +1,5 @@
 {
-  "name": "frontend_manage",
+  "name": "blog",
   "version": "0.0.1",
   "description": "web frontend auto release",
   "main": "index.js",

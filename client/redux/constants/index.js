@@ -4,6 +4,7 @@
 
 export default {
   group: {
-    START_ADD: 'START_ADD'
+    START_ADD: 'START_ADD',
+    ADD_SUCCESS: 'ADD_SUCCESS'
   }
 }
