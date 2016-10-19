@@ -1,13 +1,11 @@
 /**
- * Created by zhangran on 16/10/16.
+ * Created by zhangran on 16/10/19.
  */
 
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
 import { browserHistory } from 'react-router'
-import { addGroup } from '../redux/actions/group/'
 
-class GroupEdit extends Component {
+export default class EditBase extends Component {
   constructor (props) {
     super(props)
     this.state = {}
@@ -71,13 +69,3 @@ class GroupEdit extends Component {
     </div>)
   }
 }
-
-function mapStateToProps (state, ownProps) {
-  return {
-    groupChanged: state.group.changed
-  }
-}
-
-export default connect(mapStateToProps, {
-  addGroup
-})(GroupEdit)

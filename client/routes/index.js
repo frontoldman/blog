@@ -3,8 +3,9 @@ import {Route, IndexRoute, Redirect} from 'react-router'
 import Layout from '../page/Layout'
 import Login from '../page/Login'
 import Admin from '../page/Admin'
-import GroupList from '../page/GroupList'
-import GroupEdit from '../page/GroupEdit'
+import GroupList from '../page/group/List'
+import GroupAdd from '../page/group/Add'
+import GroupEdit from '../page/group/Edit'
 
 export default (
   <Route path="/" component={Layout}>
@@ -12,7 +13,8 @@ export default (
     <Route path="login" component={Login} />
     <Route path="admin" component={Admin}>
       <Route path="group" component={GroupList} />
-      <Route path="group/add" component={GroupEdit} />
+      <Route path="group/add" component={GroupAdd} />
+      <Route path="group/:id" component={GroupEdit} />
     </Route>
     <Redirect from="*" to="login" />
   </Route>

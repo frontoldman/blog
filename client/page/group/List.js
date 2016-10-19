@@ -5,7 +5,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { getGroupList } from '../redux/actions/group/'
+import { getGroupList } from '../../redux/actions/group/'
 
 class GroupList extends Component {
   componentDidMount () {
@@ -37,7 +37,7 @@ class GroupList extends Component {
             <td className="border py-2 px-4">{group.name}</td>
             <td className="border py-2 px-4">{group.des}</td>
             <td className="border py-2 px-4 text-center">
-              <button className="btn btn-primary" type="button">编辑</button>
+              <Link to={'/admin/group/' + group._id}><button className="btn btn-primary" type="button">编辑</button></Link>
               <button className="btn btn-danger ml-1" type="button">删除</button>
             </td>
           </tr>)

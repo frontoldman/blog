@@ -23,6 +23,16 @@ export function getGroupList (name, des) {
   }
 }
 
+export function getDetail (id) {
+  return dispatch => {
+    getDetailById(id)
+      .then(data => dispatch({
+        type: constants.group.GET_DETAIL_SUCCESS,
+        data: data
+      }))
+  }
+}
+
 /**
  * 添加用户组
  * @param name 名称
@@ -43,6 +53,16 @@ function add (name, des) {
  */
 function getList () {
   return fetch('/api/user/group', {
+    method: 'GET'
+  })
+}
+
+/**
+ * 根据用户组id获取详情
+ * @param id
+ */
+function getDetailById (id) {
+  return fetch(`/api/user/group/${id}`, {
     method: 'GET'
   })
 }
