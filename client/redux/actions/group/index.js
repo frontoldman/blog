@@ -14,7 +14,7 @@ export function addGroup (name, des) {
   }
 }
 
-export function getGroupList (name, des) {
+export function getGroupList () {
   return dispatch => {
     getList()
       .then(data => {
@@ -29,6 +29,15 @@ export function getDetail (id) {
       .then(data => dispatch({
         type: constants.group.GET_DETAIL_SUCCESS,
         data: data
+      }))
+  }
+}
+
+export function saveDetail (id, name, detail) {
+  return dispatch => {
+    saveDetailById(id, name, detail)
+      .then(data => dispatch({
+        type: constants.group.ADD_SUCCESS
       }))
   }
 }
@@ -64,5 +73,21 @@ function getList () {
 function getDetailById (id) {
   return fetch(`/api/user/group/${id}`, {
     method: 'GET'
+  })
+}
+
+/**
+ * 保存用户组详情
+ * @param id
+ * @param name
+ * @param des
+ */
+function saveDetailById (id, name, des) {
+  return fetch(`/api/user/group/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `name=${name}&des=${des}`
   })
 }

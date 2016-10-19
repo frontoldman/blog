@@ -8,22 +8,23 @@ import { browserHistory } from 'react-router'
 export default class EditBase extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
     this.save = this.save.bind(this)
   }
 
-  save (event) {
-    const { addGroup } = this.props
-    const { name, des } = this.state
-    event.preventDefault()
-    addGroup(name, des)
+  state = {
+    name: this.props.detail.name || '',
+    des: this.props.detail.des || ''
   }
 
   componentWillReceiveProps (nextProps) {
-    const { groupChanged } = nextProps
+    const { groupChanged, detail } = nextProps
     switch (groupChanged.status) {
       case 2:
         setTimeout(() => browserHistory.push('/admin/group/'))
+        break
+      case 4:
+        this.state.name = detail.name
+        this.state.des = detail.des
         break
     }
   }
@@ -52,12 +53,12 @@ export default class EditBase extends Component {
       <form onSubmit={this.save}>
         <dl className="form-group">
           <dt><label>用户组名称</label></dt>
-          <dd><input className="form-control" onChange={ e => (this.state.name = e.target.value)} type="text" placeholder="输入用户组名称" /></dd>
+          <dd><input className="form-control" value={this.state.name} onChange={ e => (this.setState({name: e.target.value}))} type="text" placeholder="输入用户组名称" /></dd>
         </dl>
         <dl className="form-group">
           <dt><label>用户组描述</label></dt>
           <dd>
-            <textarea className="form-control" onChange={ e => (this.state.des = e.target.value)} placeholder="输入用户组描述"></textarea>
+            <textarea className="form-control" value={this.state.des} onChange={ e => (this.setState({des: e.target.value}))} placeholder="输入用户组描述"></textarea>
           </dd>
         </dl>
         <dl className="form-group">
