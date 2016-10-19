@@ -11,6 +11,7 @@ var groupInitState = {
   status: 0,  // 0: 正常状态 1: 开始保存 2: 保存成功 3: 保存失败
   detail: null
 }
+
 /**
  *
  * @param state
@@ -27,6 +28,21 @@ function changed (state = groupInitState, action) {
   return state
 }
 
+/**
+ *
+ * @param state
+ * @param action
+ * @returns {*}
+ */
+function listData (state = {list: [], page: {}}, action) {
+  switch (action.type) {
+    case group.GET_LIST_SUCCESS:
+      return {...state, list: action.list, page: action.page}
+  }
+  return state
+}
+
 export default combineReducers({
-  changed
+  changed,
+  listData
 })

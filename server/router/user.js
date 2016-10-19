@@ -9,6 +9,7 @@ router.post('/group', function *(next) {
   var body = this.request.body,
     userGroup = yield UserGroup.create({
       name: body.name,
+      des: body.des
       // creater: this.session.user._id
     })
 

@@ -14,6 +14,15 @@ export function addGroup (name, des) {
   }
 }
 
+export function getGroupList (name, des) {
+  return dispatch => {
+    getList()
+      .then(data => {
+        dispatch({type: constants.group.GET_LIST_SUCCESS, list: data})
+      })
+  }
+}
+
 /**
  * 添加用户组
  * @param name 名称
@@ -26,5 +35,14 @@ function add (name, des) {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: `name=${name}&des=${des}`
+  })
+}
+
+/**
+ * 获取用户组列表
+ */
+function getList () {
+  return fetch('/api/user/group', {
+    method: 'GET'
   })
 }
