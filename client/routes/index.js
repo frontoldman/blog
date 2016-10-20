@@ -6,6 +6,9 @@ import Admin from '../page/Admin'
 import GroupList from '../page/group/List'
 import GroupAdd from '../page/group/Add'
 import GroupEdit from '../page/group/Edit'
+import User from '../page/user/List'
+import UserAdd from '../page/user/Add'
+import UserEdit from '../page/user/Edit'
 
 export default (
   <Route path="/" component={Layout}>
@@ -15,6 +18,9 @@ export default (
       <Route path="group" component={GroupList} />
       <Route path="group/add" component={GroupAdd} />
       <Route path="group/:id" component={GroupEdit} />
+      <Route path="user" component={User} />
+      <Route path="user/add" component={UserAdd} />
+      <Route path="user/:id" component={UserEdit} />
     </Route>
     <Redirect from="*" to="login" />
   </Route>

@@ -54,19 +54,19 @@ router.post('/admin', function *(next) {
   var body = this.request.body
 
   //  默认密码
-  var defaultPassword = '1'
+  var defaultPassword = body.password || '1'
   var passwordHashed = crypto.createHash('md5').update(defaultPassword).digest('hex')
 
   var user = yield User.create({
     username: body.username,
     nickname: body.nickname,
-    group: body.group,
+    groupId: body.groupId,
     password: passwordHashed
   })
 
   var userGroup = yield UserGroup
     .update(
-      {_id: body.group},
+      {_id: body.groupId},
       {'$addToSet': {users: user._id}}
     )
 

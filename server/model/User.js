@@ -6,7 +6,7 @@ var UserSchema = new Schema({
   nickname: String,
   password: String,
   creater: {type: Schema.Types.ObjectId, ref: 'User'},
-  group: {type: Schema.Types.ObjectId, ref: 'UserGroup'},
+  groupId: {type: Schema.Types.ObjectId, ref: 'UserGroup'},
   createTime: {type: Date, default: Date.now},
   updateTime: {type: Date, default: Date.now}
 })
