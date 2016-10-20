@@ -5,7 +5,7 @@
 import {connect} from 'react-redux'
 
 import EditBase from './EditBase'
-import { addGroup } from '../../redux/actions/group/'
+import { addGroup, clearGroup } from '../../redux/actions/group/'
 
 class GroupAdd extends EditBase {
   save (event) {
@@ -24,5 +24,6 @@ function mapStateToProps (state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  addGroup
+  addGroup,
+  clearGroup
 })(GroupAdd)

@@ -8,8 +8,27 @@ module.exports = function (url, fetchConfig) {
   const config = {
     credentials: 'include'
   }
+  var fetchPromise
+  var body, query, _query
 
-  const fetchPromise = fetch(url, {
+  if (/post/i.test(fetchConfig.method)) {
+    body = fetchConfig.body
+    if (typeof body === 'object') {
+      fetchConfig.body = Object.keys(body).map(key => `${key}=${body[key]}`).join('&')
+    }
+  } else {
+    query = fetchConfig.query
+    if (typeof query === 'object') {
+      _query = Object.keys(query).map(key => `${key}=${query[key]}`).join('&')
+      if (url.indexOf('?') !== -1) {
+        url += '&' + _query
+      } else {
+        url += '?' + _query
+      }
+    }
+  }
+
+  fetchPromise = fetch(url, {
     ...config,
     ...fetchConfig
   }).then(

@@ -4,6 +4,10 @@
 import constants from '../../constants/'
 import fetch from '../../../../util/fetch'
 
+export function clearGroup () {
+  return {type: constants.group.CLEAR}
+}
+
 export function addGroup (name, des) {
   return dispatch => {
     dispatch({type: constants.group.START_ADD})
@@ -33,9 +37,9 @@ export function getDetail (id) {
   }
 }
 
-export function saveDetail (id, name, detail) {
+export function saveDetail (id, name, des) {
   return dispatch => {
-    saveDetailById(id, name, detail)
+    saveDetailById(id, name, des)
       .then(data => dispatch({
         type: constants.group.ADD_SUCCESS
       }))
@@ -62,7 +66,11 @@ function add (name, des) {
  */
 function getList () {
   return fetch('/api/user/group', {
-    method: 'GET'
+    method: 'GET',
+    query: {
+      pageSize: 10,
+      pageCur: 0
+    }
   })
 }
 

@@ -18,8 +18,11 @@ router.post('/group', function *(next) {
 
 // 获取userGroup列表
 router.get('/group', function *(next) {
+  var { pageSize, pageCur } = this.query
   var userGroupList = yield UserGroup
     .find()
+    .skip(pageCur * pageSize)
+    .limit((pageCur + 1) * pageSize)
     .populate('creater', 'nickname')
 
   this.body = userGroupList
@@ -36,7 +39,7 @@ router.put('/group/:id', function *(next) {
   var body = this.request.body
   var userGroup = yield UserGroup.update(
     {_id: this.params.id},
-    {name: body.name, updateTime: new Date()})
+    {name: body.name, des: body.des, updateTime: new Date()})
   this.body = userGroup
 })
 

@@ -8,6 +8,7 @@ import { browserHistory } from 'react-router'
 export default class EditBase extends Component {
   constructor (props) {
     super(props)
+    props.clearGroup()
     this.save = this.save.bind(this)
   }
 
@@ -20,8 +21,11 @@ export default class EditBase extends Component {
     const { groupChanged, detail } = nextProps
     switch (groupChanged.status) {
       case 2:
-        setTimeout(() => browserHistory.push('/admin/group/'))
+        setTimeout(() => {
+          browserHistory.push('/admin/group/')
+        })
         break
+      case 0:
       case 4:
         this.state.name = detail.name
         this.state.des = detail.des

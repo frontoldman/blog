@@ -18,6 +18,8 @@ var groupInitState = {
  */
 function changed (state = groupInitState, action) {
   switch (action.type) {
+    case group.CLEAR:
+      return {...state, status: 0}
     case group.START_ADD:
       return {...state, status: 1}
     case group.ADD_SUCCESS:
@@ -48,6 +50,8 @@ function listData (state = {list: [], page: {}}, action) {
  */
 function detail (state = {_id: '', name: '', des: ''}, action) {
   switch (action.type) {
+    case group.CLEAR:
+      return {_id: '', name: '', des: ''}
     case group.GET_DETAIL_SUCCESS:
       return {_id: action.data._id, name: action.data.name, des: action.data.des}
   }

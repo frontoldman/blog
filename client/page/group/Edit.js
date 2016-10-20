@@ -5,7 +5,7 @@
 import {connect} from 'react-redux'
 
 import EditBase from './EditBase'
-import { getDetail, saveDetail } from '../../redux/actions/group/'
+import { getDetail, saveDetail, clearGroup } from '../../redux/actions/group/'
 
 class GroupEdit extends EditBase {
   componentDidMount () {
@@ -31,5 +31,6 @@ function mapStateToProps (state, ownProps) {
 
 export default connect(mapStateToProps, {
   getDetail,
-  saveDetail
+  saveDetail,
+  clearGroup
 })(GroupEdit)

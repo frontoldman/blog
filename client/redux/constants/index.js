@@ -4,6 +4,7 @@
 
 export default {
   group: {
+    CLEAR: 'CLEAR',
     START_ADD: 'START_ADD',
     ADD_SUCCESS: 'ADD_SUCCESS',
     ADD_FAILED: 'ADD_FAILED',
