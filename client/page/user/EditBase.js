@@ -13,7 +13,7 @@ export default class EditBase extends Component {
   }
 
   state = {
-    name: this.props.detail.name || '',
+    username: this.props.detail.username || '',
     password: '',
     passwordRepeat: '',
     groupId: this.props.detail.groupId || '',
@@ -21,24 +21,19 @@ export default class EditBase extends Component {
     valid: true
   }
 
-  componentDidMount () {
-    const { getGroupList } = this.props
-    getGroupList()
-  }
-
   componentWillReceiveProps (nextProps) {
     const { userChanged, detail } = nextProps
     switch (userChanged.status) {
       case 2:
         setTimeout(() => {
-          browserHistory.push('/admin/group/')
+          browserHistory.push('/admin/user')
         })
         break
       case 0:
       case 4:
-        this.state.name = detail.name
+        this.state.username = detail.username
         this.state.groupId = detail.groupId
-        this.state.nickName = detail.nickName
+        this.state.nickname = detail.nickname
         break
     }
   }
@@ -85,7 +80,7 @@ export default class EditBase extends Component {
       <form onSubmit={this.save}>
         <dl className="form-group">
           <dt><label>用户名</label></dt>
-          <dd><input className="form-control" value={this.state.name} onChange={ e => (this.setState({name: e.target.value}))} type="text" placeholder="输入用户组名称" /></dd>
+          <dd><input className="form-control" value={this.state.username} onChange={ e => (this.setState({username: e.target.value}))} type="text" placeholder="输入用户组名称" /></dd>
         </dl>
         <dl className="form-group">
           <dt><label>昵称</label></dt>

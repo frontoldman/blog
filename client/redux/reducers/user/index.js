@@ -48,16 +48,16 @@ function listData (state = {list: [], page: {}}, action) {
 /**
  *
  */
-function detail (state = {_id: '', nickName: '', name: '', groupId: ''}, action) {
+function detail (state = {_id: '', nickname: '', username: '', groupId: ''}, action) {
   switch (action.type) {
     case user.CLEAR:
-      return {_id: '', name: '', nickName: '', groupId: ''}
+      return {_id: '', username: '', nickname: '', groupId: ''}
     case user.GET_DETAIL_SUCCESS:
       return {
         _id: action.data._id,
-        name: action.data.name,
-        nickName: action.data.nickName,
-        groupId: action.data.groupId
+        username: action.data.username,
+        nickname: action.data.nickname,
+        groupId: action.data.group._id
       }
   }
   return state

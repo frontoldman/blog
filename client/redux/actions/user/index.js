@@ -8,10 +8,10 @@ export function clearUser () {
   return {type: constants.user.CLEAR}
 }
 
-export function addUser (name, nickname, password, groupId) {
+export function addUser (username, nickname, password, groupId) {
   return dispatch => {
     dispatch({type: constants.user.START_ADD})
-    add(name, nickname, password, groupId)
+    add(username, nickname, password, groupId)
       .then(data => {
         dispatch({type: constants.user.ADD_SUCCESS})
       })
@@ -37,9 +37,9 @@ export function getDetail (id) {
   }
 }
 
-export function saveDetail (id, name, des) {
+export function saveDetail (id, username, password, groupId) {
   return dispatch => {
-    saveDetailById(id, name, des)
+    saveDetailById(id, username, password, groupId)
       .then(data => dispatch({
         type: constants.user.ADD_SUCCESS
       }))
@@ -70,7 +70,7 @@ function add (username, nickname, password, groupId) {
  * 获取用户组列表
  */
 function getList () {
-  return fetch('/api/user/group', {
+  return fetch('/api/user/admin', {
     method: 'GET',
     query: {
       pageSize: 10,
@@ -84,7 +84,7 @@ function getList () {
  * @param id
  */
 function getDetailById (id) {
-  return fetch(`/api/user/group/${id}`, {
+  return fetch(`/api/user/admin/${id}`, {
     method: 'GET'
   })
 }
@@ -95,12 +95,16 @@ function getDetailById (id) {
  * @param name
  * @param des
  */
-function saveDetailById (id, name, des) {
-  return fetch(`/api/user/group/${id}`, {
+function saveDetailById (id, username, password, groupId) {
+  return fetch(`/api/user/admin/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    body: `name=${name}&des=${des}`
+    body: {
+      username,
+      password,
+      groupId
+    }
   })
 }

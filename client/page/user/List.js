@@ -5,12 +5,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { getGroupList } from '../../redux/actions/group/'
+import { getUserList } from '../../redux/actions/user/'
 
-class GroupList extends Component {
+class UserList extends Component {
   componentDidMount () {
-    const { getGroupList } = this.props
-    getGroupList()
+    const { getUserList } = this.props
+    getUserList()
   }
 
   render () {
@@ -26,18 +26,20 @@ class GroupList extends Component {
         <thead>
         <tr>
           <th className="border py-2 px-2">用户名</th>
+          <th className="border py-2 px-2">昵称</th>
           <th className="border py-2 px-2">所属用户组</th>
           <th className="border py-2 px-2">操作</th>
         </tr>
         </thead>
         <tbody>
 
-        {list.map(group => {
-          return (<tr key={group._id}>
-            <td className="border py-2 px-4">{group.name}</td>
-            <td className="border py-2 px-4">{group.des}</td>
+        {list.map(user => {
+          return (<tr key={user._id}>
+            <td className="border py-2 px-4">{user.username}</td>
+            <td className="border py-2 px-4">{user.nickname}</td>
+            <td className="border py-2 px-4">{user.group.name}</td>
             <td className="border py-2 px-4 text-center">
-              <Link to={'/admin/group/' + group._id}><button className="btn btn-primary" type="button">编辑</button></Link>
+              <Link to={'/admin/user/' + user._id}><button className="btn btn-primary" type="button">编辑</button></Link>
               <button className="btn btn-danger ml-1" type="button">删除</button>
             </td>
           </tr>)
@@ -51,10 +53,10 @@ class GroupList extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    listData: state.group.listData
+    listData: state.user.listData
   }
 }
 
 export default connect(mapStateToProps, {
-  getGroupList
-})(GroupList)
+  getUserList
+})(UserList)

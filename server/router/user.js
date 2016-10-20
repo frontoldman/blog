@@ -60,7 +60,7 @@ router.post('/admin', function *(next) {
   var user = yield User.create({
     username: body.username,
     nickname: body.nickname,
-    groupId: body.groupId,
+    group: body.groupId,
     password: passwordHashed
   })
 
@@ -94,6 +94,7 @@ router.delete('/admin/:id', function *(next) {
 //  查找单个用户
 router.get('/admin/:id', function *(next) {
   var user = yield User.findOne({_id: this.params.id})
+    .populate('group')
   this.body = user
 })
 

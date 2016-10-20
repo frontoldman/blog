@@ -9,14 +9,19 @@ import { addUser, clearUser } from '../../redux/actions/user/'
 import { getGroupList } from '../../redux/actions/group/'
 
 class UserAdd extends EditBase {
+  componentDidMount () {
+    const { getGroupList } = this.props
+    getGroupList()
+  }
+
   save (event) {
     const { addUser } = this.props
-    const { name, password, groupId, nickname } = this.state
+    const { username, password, groupId, nickname } = this.state
 
     var isValid = super.validate()
     event.preventDefault()
     if (isValid) {
-      addUser(name, nickname, password, groupId)
+      addUser(username, nickname, password, groupId)
     }
   }
 }
