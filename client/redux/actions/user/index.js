@@ -37,9 +37,9 @@ export function getDetail (id) {
   }
 }
 
-export function saveDetail (id, username, password, groupId) {
+export function saveDetail (id, username, nickname, password, groupId) {
   return dispatch => {
-    saveDetailById(id, username, password, groupId)
+    saveDetailById(id, username, nickname, password, groupId)
       .then(data => dispatch({
         type: constants.user.ADD_SUCCESS
       }))
@@ -95,7 +95,7 @@ function getDetailById (id) {
  * @param name
  * @param des
  */
-function saveDetailById (id, username, password, groupId) {
+function saveDetailById (id, username, nickname, password, groupId) {
   return fetch(`/api/user/admin/${id}`, {
     method: 'PUT',
     headers: {
@@ -103,6 +103,7 @@ function saveDetailById (id, username, password, groupId) {
     },
     body: {
       username,
+      nickname,
       password,
       groupId
     }

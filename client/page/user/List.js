@@ -37,7 +37,7 @@ class UserList extends Component {
           return (<tr key={user._id}>
             <td className="border py-2 px-4">{user.username}</td>
             <td className="border py-2 px-4">{user.nickname}</td>
-            <td className="border py-2 px-4">{user.group.name}</td>
+            <td className="border py-2 px-4">{user.group && user.group.name}</td>
             <td className="border py-2 px-4 text-center">
               <Link to={'/admin/user/' + user._id}><button className="btn btn-primary" type="button">编辑</button></Link>
               <button className="btn btn-danger ml-1" type="button">删除</button>

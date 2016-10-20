@@ -11,7 +11,7 @@ module.exports = function (url, fetchConfig) {
   var fetchPromise
   var body, query, _query
 
-  if (/post/i.test(fetchConfig.method)) {
+  if (/post|put/i.test(fetchConfig.method)) {
     body = fetchConfig.body
     if (typeof body === 'object') {
       fetchConfig.body = Object.keys(body).map(key => `${key}=${body[key]}`).join('&')
