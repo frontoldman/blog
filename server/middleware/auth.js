@@ -5,6 +5,8 @@ module.exports = function *(next) {
     userId = this.cookies.get('userId'),
     user
 
+  console.log(this.request.header)
+
   // return authFn();
 
   if (this.session.user) {

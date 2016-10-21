@@ -3,8 +3,27 @@
  */
 
 import React, {Component} from 'react'
+import { Link } from 'react-router'
 
 export default class Admin extends Component {
+  state = {
+    menu: [{
+      'path': '/admin/group',
+      'name': '用户组管理'
+    }, {
+      'path': '/admin/user',
+      'name': '用户管理'
+    }, {
+      'path': '/admin/article',
+      'name': '文章管理'
+    }]
+  }
+
+  checkPathMatch (path) {
+    const { pathname } = this.props.location
+    return path === pathname
+  }
+
   render () {
     const {
       children
@@ -13,16 +32,16 @@ export default class Admin extends Component {
     return (
       <div>
         <div className="blankslate">
-          <h3>前端博客管理</h3>
+          <h3>前端杂记</h3>
         </div>
         <div className="columns mt-3">
-
           <div className="one-fifth column">
             <nav className="menu">
-              <a className="menu-item selected" href="#">Account</a>
-              <a className="menu-item" href="#">Profile</a>
-              <a className="menu-item" href="#">Emails</a>
-              <a className="menu-item" href="#">Notifications</a>
+              {
+                this.state.menu.map((item, index) => {
+                  return (<Link key={index} className={'menu-item' + (this.checkPathMatch(item.path) ? ' selected' : '')} to={item.path}>{item.name}</Link>)
+                })
+              }
             </nav>
           </div>
           <div className="four-fifths column">

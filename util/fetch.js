@@ -16,6 +16,8 @@ module.exports = function (url, fetchConfig) {
     if (typeof body === 'object') {
       fetchConfig.body = Object.keys(body).map(key => `${key}=${body[key]}`).join('&')
     }
+    fetchConfig.headers = fetchConfig.headers || {}
+    fetchConfig.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   } else {
     query = fetchConfig.query
     if (typeof query === 'object') {
@@ -37,7 +39,7 @@ module.exports = function (url, fetchConfig) {
         return response.json()
       }
 
-      throw response
+      return Promise.reject(response)
     }
   )
 

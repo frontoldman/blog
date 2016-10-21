@@ -10,12 +10,13 @@ import routes from '../../client/routes'
 import Html from './Html'
 
 const handleRender = function *(ctx) {
-
   const initialState = {}
   const store = configureStore(initialState)
 
   const _ctx = this
   const {url: location} = _ctx
+
+
 
   match({routes, location}, (error, redirectLocation, renderProps) => {
     if (error) {

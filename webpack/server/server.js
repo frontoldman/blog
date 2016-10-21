@@ -10,7 +10,8 @@ import MongooseStore from 'koa-session-mongoose'
 
 import {server} from '../../config'
 import handleRender from './handleRender'
-import router from '../../server//router/'
+import router from '../../server/router/'
+import auth from '../../server/middleware/auth'
 
 var app = Koa()
 
@@ -23,6 +24,7 @@ app.use(session({
 }))
 app.use(bodyParser())
 
+app.use(auth)
 app.use(router.routes())
 app.use(handleRender)
 

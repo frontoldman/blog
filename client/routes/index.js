@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route, IndexRoute, Redirect} from 'react-router'
 import Layout from '../page/Layout'
-import Login from '../page/Login'
+import Login from '../page/login/Login'
 import Admin from '../page/Admin'
 import GroupList from '../page/group/List'
 import GroupAdd from '../page/group/Add'
