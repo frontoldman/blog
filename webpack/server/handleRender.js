@@ -16,12 +16,15 @@ const handleRender = function *(ctx) {
   const _ctx = this
   const {url: location} = _ctx
 
-
+  // console.log(location)
 
   match({routes, location}, (error, redirectLocation, renderProps) => {
     if (error) {
       _ctx.status = 500
       _ctx.body = error.message
+    } else if (redirectLocation) {
+      _ctx.status = 302
+      _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
     } else if (renderProps) {
       const component = (
         <Provider store={store}>

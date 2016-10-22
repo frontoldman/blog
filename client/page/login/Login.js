@@ -30,7 +30,7 @@ class Login extends Component {
     switch (loginStatus.status) {
       case 2:
         setTimeout(() => {
-          browserHistory.push('/admin/group/')
+          browserHistory.push('/admin/dashboard/')
         })
         break
     }

@@ -1,8 +1,8 @@
 var User = require('../model/User')
 
 module.exports = function *(next) {
-  var userId = this.cookies.get('userId'),
-    user
+  var userId = this.cookies.get('userId')
+  var user
 
   if (this.session.user) {
     return yield next
