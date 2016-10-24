@@ -1,18 +1,20 @@
 import React from 'react'
 import {Route, IndexRoute, Redirect} from 'react-router'
-import Layout from '../page/Layout'
-import Login from '../page/login/Login'
-import Admin from '../page/Admin'
-import Dashboard from '../page/dashboard/'
-import GroupList from '../page/group/List'
-import GroupAdd from '../page/group/Add'
-import GroupEdit from '../page/group/Edit'
-import User from '../page/user/List'
-import UserAdd from '../page/user/Add'
-import UserEdit from '../page/user/Edit'
-import Article from '../page/article/List'
-import ArticleAdd from '../page/article/Add'
-import ArticleEdit from '../page/article/Edit'
+import Layout from '../backend/Layout'
+import Login from '../backend/login/Login'
+import Admin from '../backend/Admin'
+import Dashboard from '../backend/dashboard/'
+import GroupList from '../backend/group/List'
+import GroupAdd from '../backend/group/Add'
+import GroupEdit from '../backend/group/Edit'
+import User from '../backend/user/List'
+import UserAdd from '../backend/user/Add'
+import UserEdit from '../backend/user/Edit'
+import Article from '../backend/article/List'
+import ArticleAdd from '../backend/article/Add'
+import ArticleEdit from '../backend/article/Edit'
+
+import ArticleView from '../frontend/article/'
 
 export default (
   <Route path="/" component={Layout}>
@@ -29,6 +31,9 @@ export default (
       <Route path="article" component={Article} />
       <Route path="article/add" component={ArticleAdd} />
       <Route path="article/:id" component={ArticleEdit} />
+    </Route>
+    <Route path="frontend">
+      <Route path="article/:title" component={ArticleView} />
     </Route>
     <Redirect from="*" to="login" />
   </Route>
