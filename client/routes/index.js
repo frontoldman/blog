@@ -10,6 +10,9 @@ import GroupEdit from '../page/group/Edit'
 import User from '../page/user/List'
 import UserAdd from '../page/user/Add'
 import UserEdit from '../page/user/Edit'
+import Article from '../page/article/List'
+import ArticleAdd from '../page/article/Add'
+import ArticleEdit from '../page/article/Edit'
 
 export default (
   <Route path="/" component={Layout}>
@@ -23,6 +26,9 @@ export default (
       <Route path="user" component={User} />
       <Route path="user/add" component={UserAdd} />
       <Route path="user/:id" component={UserEdit} />
+      <Route path="article" component={Article} />
+      <Route path="article/add" component={ArticleAdd} />
+      <Route path="article/:id" component={ArticleEdit} />
     </Route>
     <Redirect from="*" to="login" />
   </Route>

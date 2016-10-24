@@ -1,6 +1,5 @@
 var router = require('koa-router')()
 var crypto = require('crypto')
-var util = require('../../util/index')
 var UserGroup = require('../model/UserGroup')
 var User = require('../model/User')
 

@@ -5,12 +5,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { getGroupList } from '../../redux/actions/group/'
+import { getArticleList } from '../../redux/actions/article/'
 
 class GroupList extends Component {
   componentDidMount () {
-    const { getGroupList } = this.props
-    getGroupList()
+    const { getArticleList } = this.props
+    getArticleList()
   }
 
   render () {
@@ -18,26 +18,24 @@ class GroupList extends Component {
 
     return (<div className="group-list">
       <div className="my-2 text-right">
-        <Link to="/admin/group/add">
+        <Link to="/admin/article/add">
           <button className="btn btn-primary" type="button">新增</button>
         </Link>
       </div>
       <table className="border" style={{width: '100%'}}>
         <thead>
         <tr>
-          <th className="border py-2 px-2">用户组名称</th>
-          <th className="border py-2 px-2">描述</th>
+          <th className="border py-2 px-2">标题</th>
           <th className="border py-2 px-2">操作</th>
         </tr>
         </thead>
         <tbody>
 
-        {list.map(group => {
-          return (<tr key={group._id}>
-            <td className="border py-2 px-4">{group.name}</td>
-            <td className="border py-2 px-4">{group.des}</td>
+        {list.map(article => {
+          return (<tr key={article._id}>
+            <td className="border py-2 px-4">{article.title}</td>
             <td className="border py-2 px-4 text-center">
-              <Link to={'/admin/group/' + group._id}><button className="btn btn-primary" type="button">编辑</button></Link>
+              <Link to={'/admin/article/' + article._id}><button className="btn btn-primary" type="button">编辑</button></Link>
               <button className="btn btn-danger ml-1" type="button">删除</button>
             </td>
           </tr>)
@@ -51,10 +49,10 @@ class GroupList extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    listData: state.group.listData
+    listData: state.article.listData
   }
 }
 
 export default connect(mapStateToProps, {
-  getGroupList
+  getArticleList
 })(GroupList)

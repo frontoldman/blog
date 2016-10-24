@@ -5,25 +5,25 @@
 import {connect} from 'react-redux'
 
 import EditBase from './EditBase'
-import { addGroup, clearGroup } from '../../redux/actions/group/'
+import { addArticle, clearArticle } from '../../redux/actions/article/'
 
 class GroupAdd extends EditBase {
   save (event) {
-    const { addGroup } = this.props
-    const { name, des } = this.state
+    const { addArticle } = this.props
+    const { title, content, tags } = this.state
     event.preventDefault()
-    addGroup(name, des)
+    addArticle(title, content, tags)
   }
 }
 
 function mapStateToProps (state, ownProps) {
   return {
-    groupChanged: state.group.changed,
-    detail: state.group.detail
+    articleChanged: state.article.changed,
+    detail: state.article.detail
   }
 }
 
 export default connect(mapStateToProps, {
-  addGroup,
-  clearGroup
+  addArticle,
+  clearArticle
 })(GroupAdd)

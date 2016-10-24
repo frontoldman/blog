@@ -8,33 +8,35 @@ import { browserHistory } from 'react-router'
 export default class EditBase extends Component {
   constructor (props) {
     super(props)
-    props.clearGroup()
+    props.clearArticle()
     this.save = this.save.bind(this)
   }
 
   state = {
-    name: this.props.detail.name || '',
-    des: this.props.detail.des || ''
+    title: this.props.detail.title || '',
+    content: this.props.detail.content || '',
+    tags: ''
   }
 
   componentWillReceiveProps (nextProps) {
-    const { groupChanged, detail } = nextProps
-    switch (groupChanged.status) {
+    const { articleChanged, detail } = nextProps
+    switch (articleChanged.status) {
       case 2:
         setTimeout(() => {
-          browserHistory.push('/admin/group/')
+          browserHistory.push('/admin/article/')
         })
         break
       case 0:
       case 4:
-        this.state.name = detail.name
-        this.state.des = detail.des
+        this.state.title = detail.title
+        this.state.content = detail.content
+        this.state.tags = detail.tags.join(' ') || ''
         break
     }
   }
 
   renderLoding () {
-    var { status } = this.props.groupChanged
+    var { status } = this.props.articleChanged
     switch (status) {
       case 1:
         return (<div className="flash">
@@ -56,14 +58,18 @@ export default class EditBase extends Component {
       {this.renderLoding()}
       <form onSubmit={this.save}>
         <dl className="form-group">
-          <dt><label>用户组名称</label></dt>
-          <dd><input className="form-control" value={this.state.name} onChange={ e => (this.setState({name: e.target.value}))} type="text" placeholder="输入用户组名称" /></dd>
+          <dt><label>标题</label></dt>
+          <dd><input className="form-control" value={this.state.title} onChange={ e => (this.setState({title: e.target.value}))} type="text" placeholder="输入标题" /></dd>
         </dl>
         <dl className="form-group">
-          <dt><label>用户组描述</label></dt>
+          <dt><label>正文</label></dt>
           <dd>
-            <textarea className="form-control" value={this.state.des} onChange={ e => (this.setState({des: e.target.value}))} placeholder="输入用户组描述"></textarea>
+            <textarea rows="20" className="form-control" value={this.state.content} onChange={ e => (this.setState({content: e.target.value}))} placeholder="输入正文"></textarea>
           </dd>
+        </dl>
+        <dl className="form-group">
+          <dt><label>标签</label></dt>
+          <dd><input className="form-control" value={this.state.tags} onChange={ e => (this.setState({tags: e.target.value}))} type="text" placeholder="输入标签用空格分隔" /></dd>
         </dl>
         <dl className="form-group">
           <dd>
