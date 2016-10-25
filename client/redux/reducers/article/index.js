@@ -67,7 +67,7 @@ function detail (state = {_id: '', title: '', content: '', creater: '', tags: []
 function view (state = 'test', action) {
   switch (action.type) {
     case 'HAHA_TEST':
-      return 'setTimeout test success'
+      return action.data
   }
   return state
 }

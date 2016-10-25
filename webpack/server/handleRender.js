@@ -16,32 +16,40 @@ const handleRender = function *(next) {
   const _ctx = this
   const {url: location} = _ctx
 
-  // console.log(store)
+  var matchResult = {}
 
-  match({routes, location}, function (error, redirectLocation, renderProps) {
-    if (error) {
-      _ctx.status = 500
-      _ctx.body = error.message
-    } else if (redirectLocation) {
-      _ctx.status = 302
-      _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
-    } else if (renderProps) {
-      console.log(11)
-      //fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
-      store.dispatch({type: 'HAHA_TEST'})
-      const component = (
-        <Provider store={store}>
-          <RouterContext {...renderProps}/>
-        </Provider>
-      )
-
-      const assets = webpackIsomorphicTools.assets()
-
-      _ctx.type = 'html'
-      _ctx.status = 200
-      _ctx.body = renderToString(<Html assets={assets} component={component} store={store}/>)
+  match({routes, location}, (error, redirectLocation, renderProps) => {
+    matchResult = {
+      error,
+      redirectLocation,
+      renderProps
     }
   })
+
+  const {error, redirectLocation, renderProps} = matchResult
+
+  if (error) {
+    _ctx.status = 500
+    _ctx.body = error.message
+  } else if (redirectLocation) {
+    _ctx.status = 302
+    _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
+  } else if (renderProps) {
+
+    yield fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
+
+    const component = (
+      <Provider store={store}>
+        <RouterContext {...renderProps}/>
+      </Provider>
+    )
+
+    const assets = webpackIsomorphicTools.assets()
+
+    _ctx.type = 'html'
+    _ctx.status = 200
+    _ctx.body = renderToString(<Html assets={assets} component={component} store={store}/>)
+  }
 }
 
 function fetchComponentData (dispatch, components, params) {
@@ -52,7 +60,8 @@ function fetchComponentData (dispatch, components, params) {
     }
   })
 
-  const fetch = promises.map(promise => promise(params).then(data => dispatch(data)))
+  const fetch = promises.map(promise =>
+    promise(params).then(action => dispatch({...action, data: 'server render'})))
 
   return Promise.all(fetch)
 }

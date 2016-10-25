@@ -46,9 +46,11 @@ export function saveDetail (id, title, content, tags) {
   }
 }
 
-export function getDetailView () {
+export function getDetailView (data) {
   return {
-    type: constants.article.GET_DETAIL_VIEW_SUCCESS
+    // type: constants.article.GET_DETAIL_VIEW_SUCCESS,
+    type: 'HAHA_TEST',
+    data
   }
 }
 

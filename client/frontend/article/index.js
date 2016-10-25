@@ -8,7 +8,7 @@ import { Link } from 'react-router'
 import { getDetailView } from '../../redux/actions/article/'
 
 class Artcile extends Component {
-  static getInitData (dispatch, components, params) {
+  static getInitData (params) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({type: 'HAHA_TEST'})
@@ -24,8 +24,15 @@ class Artcile extends Component {
   }
 
   componentDidMount () {
-    const { dispatch } = this.props
-    // getArticle()
+    const { view, getDetailView } = this.props
+    if (view) {
+      this.constructor.getInitData()
+        .then(data => getDetailView('front end start running'))
+    }
+  }
+
+  componentWillUnmount () {
+  //  执行清理工作
   }
 
   render () {
@@ -37,7 +44,6 @@ class Artcile extends Component {
 }
 
 function mapStateToProps (state, ownProps) {
-  console.log(state.article.view)
   return {
     view: state.article.view
   }
