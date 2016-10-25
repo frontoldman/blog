@@ -9,16 +9,16 @@ import configureStore from '../../client/redux/store'
 import routes from '../../client/routes'
 import Html from './Html'
 
-const handleRender = function *(ctx) {
+const handleRender = function *(next) {
   const initialState = {}
   const store = configureStore(initialState)
 
   const _ctx = this
   const {url: location} = _ctx
 
-  // console.log(location)
+  // console.log(store)
 
-  match({routes, location}, (error, redirectLocation, renderProps) => {
+  match({routes, location}, function (error, redirectLocation, renderProps) {
     if (error) {
       _ctx.status = 500
       _ctx.body = error.message
@@ -26,6 +26,9 @@ const handleRender = function *(ctx) {
       _ctx.status = 302
       _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
     } else if (renderProps) {
+      console.log(11)
+      //fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
+      store.dispatch({type: 'HAHA_TEST'})
       const component = (
         <Provider store={store}>
           <RouterContext {...renderProps}/>
@@ -38,9 +41,20 @@ const handleRender = function *(ctx) {
       _ctx.status = 200
       _ctx.body = renderToString(<Html assets={assets} component={component} store={store}/>)
     }
+  })
+}
 
+function fetchComponentData (dispatch, components, params) {
+  const promises = []
+  components.forEach((current, index) => {
+    if (current && current.WrappedComponent && current.WrappedComponent.getInitData) {
+      promises.push(current.WrappedComponent.getInitData)
+    }
   })
 
+  const fetch = promises.map(promise => promise(params).then(data => dispatch(data)))
+
+  return Promise.all(fetch)
 }
 
 export default handleRender

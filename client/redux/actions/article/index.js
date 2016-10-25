@@ -46,6 +46,12 @@ export function saveDetail (id, title, content, tags) {
   }
 }
 
+export function getDetailView () {
+  return {
+    type: constants.article.GET_DETAIL_VIEW_SUCCESS
+  }
+}
+
 /**
  * 添加文章
  * @param title

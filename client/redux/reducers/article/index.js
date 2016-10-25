@@ -64,8 +64,17 @@ function detail (state = {_id: '', title: '', content: '', creater: '', tags: []
   return state
 }
 
+function view (state = 'test', action) {
+  switch (action.type) {
+    case 'HAHA_TEST':
+      return 'setTimeout test success'
+  }
+  return state
+}
+
 export default combineReducers({
   changed,
   listData,
-  detail
+  detail,
+  view
 })

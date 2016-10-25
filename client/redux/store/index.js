@@ -2,7 +2,7 @@ import {createStore, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from '../reducers'
 
-const configureStoreProd = (initialState = {}) => {
+const configureStoreProd = (initialState = window.__INITIAL_STATE__) => {
   const finalCreateStore = compose(
     applyMiddleware(thunk)
   )(createStore)

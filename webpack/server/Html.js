@@ -8,7 +8,7 @@ import {client} from '../../config'
 
 export default class Html extends Component {
 
-  get scripts() {
+  get scripts () {
     const { javascript } = this.props.assets
 
     return Object.keys(javascript).map((script, i) =>
@@ -16,7 +16,7 @@ export default class Html extends Component {
     )
   }
 
-  get styles() {
+  get styles () {
     const { assets } = this.props
     const { styles, assets: _assets } = assets
     const stylesArray = Object.keys(styles)
@@ -37,7 +37,7 @@ export default class Html extends Component {
     // )
   }
 
-  render() {
+  render () {
     const { component, store } = this.props
 
     return (
@@ -61,5 +61,4 @@ export default class Html extends Component {
       </html>
     )
   }
-
 }
