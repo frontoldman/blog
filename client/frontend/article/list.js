@@ -1,5 +1,5 @@
 /**
- * Created by zhangran on 16/10/24.
+ * Created by zhangran on 16/10/25.
  */
 
 import React, { Component } from 'react'
@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { getDetailView } from '../../redux/actions/article/'
 
-class Artcile extends Component {
+class ArticleList extends Component {
   static getInitData (params) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -25,14 +25,14 @@ class Artcile extends Component {
 
   componentDidMount () {
     const { view, getDetailView } = this.props
-    if (view) {
+    if (view && !view.loaded) {
       this.constructor.getInitData()
-        .then(data => getDetailView('front end start running'))
+        .then(data => getDetailView())
     }
   }
 
   componentWillUnmount () {
-  //  执行清理工作
+    //  执行清理工作
   }
 
   render () {
@@ -51,4 +51,4 @@ function mapStateToProps (state, ownProps) {
 
 export default connect(mapStateToProps, {
   getDetailView
-})(Artcile)
+})(ArticleList)

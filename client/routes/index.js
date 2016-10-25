@@ -14,7 +14,8 @@ import Article from '../backend/article/List'
 import ArticleAdd from '../backend/article/Add'
 import ArticleEdit from '../backend/article/Edit'
 
-import ArticleView from '../frontend/article/'
+import ArticleList from '../frontend/article/list'
+import ArticleView from '../frontend/article/view'
 
 export default (
   <Route path="/" component={Layout}>
@@ -33,7 +34,8 @@ export default (
       <Route path="article/:id" component={ArticleEdit} />
     </Route>
     <Route path="frontend">
-      <Route path="article/:title" component={ArticleView} />
+      <Route path="article" component={ArticleList} />
+      <Route path="article/:id" component={ArticleView} />
     </Route>
     <Redirect from="*" to="login" />
   </Route>

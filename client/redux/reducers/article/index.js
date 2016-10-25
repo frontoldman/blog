@@ -64,10 +64,10 @@ function detail (state = {_id: '', title: '', content: '', creater: '', tags: []
   return state
 }
 
-function view (state = 'test', action) {
+function view (state = {loaded: false}, action) {
   switch (action.type) {
     case 'HAHA_TEST':
-      return action.data
+      return { loaded: true, data: action.data }
   }
   return state
 }
