@@ -18,6 +18,8 @@ const handleRender = function *(next) {
 
   var matchResult = {}
 
+  // console.log(this.header.cookie)
+
   match({routes, location}, (error, redirectLocation, renderProps) => {
     matchResult = {
       error,
@@ -35,8 +37,7 @@ const handleRender = function *(next) {
     _ctx.status = 302
     _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
   } else if (renderProps) {
-
-    yield fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
+    yield fetchComponentData(store.dispatch, renderProps.components, renderProps.params, _ctx.header)
 
     const component = (
       <Provider store={store}>
@@ -52,7 +53,7 @@ const handleRender = function *(next) {
   }
 }
 
-function fetchComponentData (dispatch, components, params) {
+function fetchComponentData (dispatch, components, params, header) {
   const promises = []
   components.forEach((current, index) => {
     if (current && current.WrappedComponent && current.WrappedComponent.getInitData) {
@@ -60,8 +61,9 @@ function fetchComponentData (dispatch, components, params) {
     }
   })
 
-  const fetch = promises.map(promise =>
-    promise(params).then(action => dispatch({...action, data: 'server render'})))
+  const fetch = promises.map(promise => {
+    return promise(params, header.cookie).then(action => dispatch({...action, loaded: true}))
+  })
 
   return Promise.all(fetch)
 }

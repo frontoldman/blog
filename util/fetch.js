@@ -3,8 +3,21 @@
  */
 
 // import {browserHistory} from 'react-router'
+import fetch from 'isomorphic-fetch'
+
+import { server as serverConfig } from '../config'
 
 module.exports = function (url, fetchConfig) {
+  var urlPre = ''
+  var env = 'browser'
+
+  try {
+    window
+  } catch (e) {
+    env = 'server'
+    urlPre = `http://${serverConfig.host}:${serverConfig.port}`
+  }
+
   const config = {
     credentials: 'include'
   }
@@ -13,6 +26,11 @@ module.exports = function (url, fetchConfig) {
 
   fetchConfig.headers = fetchConfig.headers || {}
   fetchConfig.headers['xhr'] = 'xhr'
+
+  if (fetchConfig.cookie) {
+    fetchConfig.headers['cookie'] = fetchConfig.cookie
+    delete fetchConfig.cookie
+  }
 
   if (/post|put/i.test(fetchConfig.method)) {
     body = fetchConfig.body
@@ -32,7 +50,7 @@ module.exports = function (url, fetchConfig) {
     }
   }
 
-  fetchPromise = fetch(url, {
+  fetchPromise = fetch(urlPre + url, {
     ...config,
     ...fetchConfig
   }).then(
@@ -40,7 +58,6 @@ module.exports = function (url, fetchConfig) {
       if (response.ok) {
         return response.json()
       }
-
       return Promise.reject(response)
     }
   )
@@ -56,6 +73,7 @@ module.exports = function (url, fetchConfig) {
           break
       }
     } else {
+      
     }
   })
 

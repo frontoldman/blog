@@ -5,29 +5,26 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import constants from '../../redux/constants/'
 import { getDetailView } from '../../redux/actions/article/'
+import { getView } from '../../redux/resouces/article/'
 
 class ArticleView extends Component {
-  static getInitData (params) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({type: 'HAHA_TEST'})
-      }, 1000)
-    })
-  }
-
-  constructor (props) {
-    super(props)
-    // Artcile.getInitData()
-    // console.log(props.view)
-    // console.log(props.dispatch)
+  static getInitData (params, cookie) {
+    return getView(params, cookie)
+      .then(data => {
+        return {
+          type: constants.article.GET_DETAIL_VIEW_SUCCESS,
+          data: data
+        }
+      })
   }
 
   componentDidMount () {
-    const { view, getDetailView } = this.props
+    const { view, getDetailView, params } = this.props
     if (view && !view.loaded) {
-      this.constructor.getInitData()
-        .then(data => getDetailView())
+      this.constructor.getInitData(params)
+        .then(data => getDetailView(data))
     }
   }
 
@@ -36,9 +33,10 @@ class ArticleView extends Component {
   }
 
   render () {
-    const { view } = this.props
+    const { data } = this.props.view
     return (<div className="group-list">
-      文章详情{view}
+      <h1>{data.title}</h1>
+      <p>{data.content}</p>
     </div>)
   }
 }

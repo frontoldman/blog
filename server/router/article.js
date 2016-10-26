@@ -25,13 +25,20 @@ router.post('/', function *(next) {
 // 获取文章列表
 router.get('/', function *(next) {
   var { pageSize, pageCur } = this.query
+
   var articleList = yield Article
     .find()
     .skip(pageCur * pageSize)
     .limit((pageCur + 1) * pageSize)
     .populate('creater', 'nickname')
 
-  this.body = articleList
+  this.body = {
+    list: articleList,
+    page: {
+      pageCur: 0,
+      pageCount: 1000
+    }
+  }
 })
 
 // 获取文章详情

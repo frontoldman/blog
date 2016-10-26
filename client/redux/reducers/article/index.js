@@ -64,10 +64,21 @@ function detail (state = {_id: '', title: '', content: '', creater: '', tags: []
   return state
 }
 
-function view (state = {loaded: false}, action) {
+function view (state = {loaded: false, data: {}}, action) {
   switch (action.type) {
-    case 'HAHA_TEST':
+    case article.GET_DETAIL_VIEW_SUCCESS:
       return { loaded: true, data: action.data }
+  }
+  return state
+}
+
+function listView (state = {loaded: false, data: {list: [], page: {}}}, action) {
+  switch (action.type) {
+    case article.GET_LIST_VIEW_SUCCESS:
+      return {
+        loaded: true,
+        data: action.data
+      }
   }
   return state
 }
@@ -76,5 +87,6 @@ export default combineReducers({
   changed,
   listData,
   detail,
-  view
+  view,
+  listView
 })

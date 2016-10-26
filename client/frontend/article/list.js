@@ -5,29 +5,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { getDetailView } from '../../redux/actions/article/'
+import constants from '../../redux/constants/'
+import { getList } from '../../redux/resouces/article/'
 
 class ArticleList extends Component {
-  static getInitData (params) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({type: 'HAHA_TEST'})
-      }, 1000)
-    })
-  }
-
-  constructor (props) {
-    super(props)
-    // Artcile.getInitData()
-    // console.log(props.view)
-    // console.log(props.dispatch)
+  static getInitData (params, cookie) {
+    return getList(params, cookie)
+      .then(data => {
+        return {
+          type: constants.article.GET_LIST_VIEW_SUCCESS,
+          data: data
+        }
+      })
   }
 
   componentDidMount () {
-    const { view, getDetailView } = this.props
-    if (view && !view.loaded) {
+    const { listView, getArticleViewList } = this.props
+    if (listView && !listView.loaded) {
       this.constructor.getInitData()
-        .then(data => getDetailView())
+        .then(data => getArticleViewList())
     }
   }
 
@@ -36,19 +32,24 @@ class ArticleList extends Component {
   }
 
   render () {
-    const { view } = this.props
+    const { listView } = this.props
     return (<div className="group-list">
-      文章详情{view}
+      <h1>文章列表</h1>
+      <ul>
+        {listView.data.list.map((item, index) => {
+          return (<li key={index}><Link to={'/frontend/article/' + item._id}>{item.title}</Link></li>)
+        })}
+      </ul>
     </div>)
   }
 }
 
 function mapStateToProps (state, ownProps) {
   return {
-    view: state.article.view
+    listView: state.article.listView
   }
 }
 
 export default connect(mapStateToProps, {
-  getDetailView
+  
 })(ArticleList)

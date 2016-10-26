@@ -47,10 +47,22 @@ export function saveDetail (id, title, content, tags) {
 }
 
 export function getDetailView (data) {
-  return {
-    // type: constants.article.GET_DETAIL_VIEW_SUCCESS,
-    type: 'HAHA_TEST',
+  return dispatch => dispatch({
+    type: constants.article.GET_DETAIL_VIEW_SUCCESS,
     data
+  })
+}
+
+/**
+ *
+ * @returns {function()}
+ */
+export function getArticleViewList () {
+  return dispatch => {
+    getList()
+      .then(data => {
+        dispatch({type: constants.article.GET_LIST_VIEW_SUCCESS, data: data})
+      })
   }
 }
 
