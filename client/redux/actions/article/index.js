@@ -47,10 +47,10 @@ export function saveDetail (id, title, content, tags) {
 }
 
 export function getDetailView (data) {
-  return dispatch => dispatch({
+  return {
     type: constants.article.GET_DETAIL_VIEW_SUCCESS,
-    data
-  })
+    data: data.data
+  }
 }
 
 /**

@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import constants from '../../redux/constants/'
+import { getArticleViewList } from '../../redux/actions/article/'
 import { getList } from '../../redux/resouces/article/'
 
 class ArticleList extends Component {
@@ -19,7 +20,7 @@ class ArticleList extends Component {
       })
   }
 
-  componentDidMount () {
+  componentWillMount () {
     const { listView, getArticleViewList } = this.props
     if (listView && !listView.loaded) {
       this.constructor.getInitData()
@@ -51,5 +52,5 @@ function mapStateToProps (state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  
+  getArticleViewList
 })(ArticleList)

@@ -34,7 +34,10 @@ class ArticleView extends Component {
 
   render () {
     const { data } = this.props.view
-    return (<div className="group-list">
+    console.log(data)
+    console.log(data.title)
+
+    return (<div className="article-detail">
       <h1>{data.title}</h1>
       <p>{data.content}</p>
     </div>)
