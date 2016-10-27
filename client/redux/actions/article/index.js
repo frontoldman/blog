@@ -67,6 +67,22 @@ export function getArticleViewList () {
 }
 
 /**
+ *
+ * @returns {function()}
+ */
+export function clearArticleList () {
+  return {
+    type: constants.article.CLEAR_LIST_VIEW
+  }
+}
+
+export function clearArticleView () {
+  return {
+    type: constants.article.CLEAR_DETAIL_VIEW
+  }
+}
+
+/**
  * 添加文章
  * @param title
  * @param content

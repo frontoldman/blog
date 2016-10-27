@@ -66,6 +66,11 @@ function detail (state = {_id: '', title: '', content: '', creater: '', tags: []
 
 function view (state = {loaded: false, data: {}}, action) {
   switch (action.type) {
+    case article.CLEAR_DETAIL_VIEW:
+      return {
+        loaded: false,
+        data: {}
+      }
     case article.GET_DETAIL_VIEW_SUCCESS:
       return { loaded: true, data: action.data }
   }
@@ -74,6 +79,14 @@ function view (state = {loaded: false, data: {}}, action) {
 
 function listView (state = {loaded: false, data: {list: [], page: {}}}, action) {
   switch (action.type) {
+    case article.CLEAR_LIST_VIEW:
+      return {
+        loaded: false,
+        data: {
+          list: [],
+          page: {}
+        }
+      }
     case article.GET_LIST_VIEW_SUCCESS:
       return {
         loaded: true,

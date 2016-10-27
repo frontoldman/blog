@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import constants from '../../redux/constants/'
-import { getDetailView } from '../../redux/actions/article/'
+import { getDetailView, clearArticleView } from '../../redux/actions/article/'
 import { getView } from '../../redux/resouces/article/'
 
 class ArticleView extends Component {
@@ -30,16 +30,17 @@ class ArticleView extends Component {
 
   componentWillUnmount () {
   //  执行清理工作
+    const { clearArticleView } = this.props
+    clearArticleView()
   }
 
   render () {
     const { data } = this.props.view
-    console.log(data)
-    console.log(data.title)
 
     return (<div className="article-detail">
       <h1>{data.title}</h1>
       <p>{data.content}</p>
+      <div><Link to={'/frontend/article'}>文章列表</Link></div>
     </div>)
   }
 }
@@ -51,5 +52,6 @@ function mapStateToProps (state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  getDetailView
+  getDetailView,
+  clearArticleView
 })(ArticleView)
