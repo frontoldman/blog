@@ -61,6 +61,7 @@ export function getArticleViewList () {
   return dispatch => {
     getList()
       .then(data => {
+        console.log(data)
         dispatch({type: constants.article.GET_LIST_VIEW_SUCCESS, data: data})
       })
   }
