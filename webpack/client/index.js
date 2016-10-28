@@ -16,7 +16,7 @@ app.use(koaWebpackDevMiddleware(compile, {
 app.use(koaWebpackHotMiddleware(compile))
 
 
-app.listen(client.port, error => {
+app.listen(client.port, '0.0.0.0', error => {
   if (error) {
     console.log(error)
     return;

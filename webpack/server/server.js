@@ -29,7 +29,7 @@ app.use(router.routes())
 app.use(handleRender)
 
 export default function (fn) {
-  app.listen(server.port, error => {
+  app.listen(server.port, '0.0.0.0', error => {
     if (error) {
       fn(error)
       return
