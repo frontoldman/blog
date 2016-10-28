@@ -12,7 +12,7 @@ import isomorphicToolsConfig from '../isomorphic.tools.config'
 var basePath = path.join(__dirname, '../../')
 
 global.webpackIsomorphicTools = new WebpackIsomorphicTools(isomorphicToolsConfig)
-  .development(true)
+  // .development(true)
   .server(basePath, () => {
     const startServer = require('./server')
     co(function *() {

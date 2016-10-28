@@ -13,5 +13,5 @@ export const server = {
 }
 
 export const db = {
-  url:'mongodb://127.0.0.1:27017/blog'
+  url: 'mongodb://127.0.0.1:27017/blog'
 }
