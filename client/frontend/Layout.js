@@ -20,7 +20,7 @@ export default class Admin extends Component {
     return (
       <div>
         <div className="columns mt-3">
-            {children}
+          {children}
         </div>
       </div>
     )

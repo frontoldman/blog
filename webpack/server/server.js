@@ -1,12 +1,13 @@
 /**
  * Created by zhangran on 16/9/22.
  */
-
+import path from 'path'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import logger from 'koa-logger'
 import session from 'koa-session-store'
 import MongooseStore from 'koa-session-mongoose'
+import favicon from 'koa-favicon'
 
 import {server} from '../../config'
 import handleRender from './handleRender'
@@ -18,6 +19,7 @@ var app = Koa()
 // cookie签名
 app.keys = ['gg', 'fat gg']
 
+app.use(favicon(path.resolve('./public/favicon.ico')))
 app.use(logger())
 app.use(session({
   store: new MongooseStore()

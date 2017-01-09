@@ -30,7 +30,7 @@ const config = {
     './client/index.js'
   ],
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path.join(__dirname, '../../build'),
     filename: 'index.js',
     publicPath: '/build/',
     chunkFilename: '[name]-[chunkhash:8].js'
@@ -50,12 +50,16 @@ const config = {
         exclude: [/node_modules/]
       },
       {
-        test: webpackIsomorphicToolsPlugin.regular_expression('styles'),
+        test: webpackIsomorphicToolsPlugin.regular_expression('less'),
+        loader: ExtractTextPlugin.extract('style', `${cssLoader}`, 'less')
+      },
+      {
+        test: webpackIsomorphicToolsPlugin.regular_expression('css'),
         exclude: [/node_modules/],
         loader: ExtractTextPlugin.extract('style', `${cssLoader}`)
       },
       {
-        test: webpackIsomorphicToolsPlugin.regular_expression('styles'),
+        test: webpackIsomorphicToolsPlugin.regular_expression('css'),
         include: [/node_modules/],
         loader: ExtractTextPlugin.extract('style', `${cssLoader2}`)
       },

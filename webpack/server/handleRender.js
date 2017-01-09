@@ -18,8 +18,6 @@ const handleRender = function *(next) {
 
   var matchResult = {}
 
-  // console.log(this.header.cookie)
-
   match({routes, location}, (error, redirectLocation, renderProps) => {
     matchResult = {
       error,

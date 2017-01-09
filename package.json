@@ -4,9 +4,9 @@
   "description": "web frontend auto release",
   "main": "index.js",
   "scripts": {
-    "start": "npm run client:start && npm run server:start",
     "client:start": "babel-node webpack/client/index.js",
-    "server:start": "babel-node webpack/server/index.js",
+    "server:start": "nodemon --exec babel-node webpack/server/index.js",
+    "start": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -66,8 +66,12 @@
     "eslint-plugin-react": "^6.4.1",
     "eslint-plugin-standard": "^2.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
     "koa-webpack-dev-middleware": "^1.2.2",
     "koa-webpack-hot-middleware": "^1.0.3",
+    "less": "^2.7.2",
+    "less-loader": "^2.2.3",
+    "nodemon": "^1.11.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2",

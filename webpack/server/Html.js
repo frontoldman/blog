@@ -44,12 +44,11 @@ export default class Html extends Component {
       <html>
       <head>
         <meta charSet="utf-8" />
-
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <title>前端博客</title>
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
         {this.styles}
       </head>
 

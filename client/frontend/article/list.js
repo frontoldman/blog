@@ -8,6 +8,7 @@ import { Link } from 'react-router'
 import constants from '../../redux/constants/'
 import { getArticleViewList, clearArticleList } from '../../redux/actions/article/'
 import { getList } from '../../redux/resouces/article/'
+import listStyle from './list_style.less'
 
 class ArticleList extends Component {
   static getInitData (params, cookie) {
@@ -37,7 +38,7 @@ class ArticleList extends Component {
   render () {
     const { listView } = this.props
     return (<div className="group-list">
-      <h1>文章列表</h1>
+      <h1 className={listStyle.title}>文章列表</h1>
       <ul>
         {listView.data.list.map((item, index) => {
           return (<li key={index}><Link to={'/frontend/article/' + item._id}>{item.title}</Link></li>)

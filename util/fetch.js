@@ -2,19 +2,15 @@
  * Created by zhangran on 16/10/17.
  */
 
-// import {browserHistory} from 'react-router'
 import fetch from 'isomorphic-fetch'
-
 import { server as serverConfig } from '../config'
 
 module.exports = function (url, fetchConfig) {
   var urlPre = ''
-  var env = 'browser'
 
   try {
     window
   } catch (e) {
-    env = 'server'
     urlPre = `http://${serverConfig.host}:${serverConfig.port}`
   }
 
@@ -73,7 +69,6 @@ module.exports = function (url, fetchConfig) {
           break
       }
     } else {
-      
     }
   })
 

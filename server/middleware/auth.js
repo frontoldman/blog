@@ -3,13 +3,14 @@ var User = require('../model/User')
 module.exports = function *(next) {
   var userId = this.cookies.get('userId')
   var user
+  var path = this.request.path
 
-  if (this.request.path === '/api/login') {
+  if (path === '/api/login') {
     return yield next
   }
 
   if (this.session.user) {
-    if (this.request.path === '/login') {
+    if (path === '/login') {
       return this.redirect('/admin/dashboard')
     }
     return yield next
@@ -17,14 +18,14 @@ module.exports = function *(next) {
 
   if (userId && (user = yield User.findOne({_id: userId}))) {
     this.session.user = user
-    if (this.request.path === '/login') {
+    if (path === '/login') {
       return this.redirect('/admin/dashboard')
     }
     yield next
   } else {
     const { xhr } = this.request.header
     if (!xhr) {
-      if (this.request.path !== '/login') {
+      if (path !== '/login') {
         this.redirect('/login')
       } else {
         yield next

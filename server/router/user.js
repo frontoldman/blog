@@ -12,6 +12,8 @@ router.post('/group', function *(next) {
       // creater: this.session.user._id
     })
 
+
+
   this.body = {code: 1000}
 })
 

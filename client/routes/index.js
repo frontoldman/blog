@@ -19,9 +19,10 @@ import ArticleView from '../frontend/article/view'
 
 export default (
   <Route path="/" component={Layout}>
-    <IndexRoute component={Login} />
+    <IndexRoute component={ArticleList} />
     <Route path="login" component={Login} />
     <Route path="admin" component={Admin}>
+      <IndexRoute component={Dashboard}/>
       <Route path="dashboard" component={Dashboard} />
       <Route path="group" component={GroupList} />
       <Route path="group/add" component={GroupAdd} />
@@ -34,9 +35,10 @@ export default (
       <Route path="article/:id" component={ArticleEdit} />
     </Route>
     <Route path="frontend">
+      <IndexRoute component={ArticleList}/>
       <Route path="article" component={ArticleList} />
       <Route path="article/:id" component={ArticleView} />
     </Route>
-    <Redirect from="*" to="login" />
+    <Redirect from="*" to="frontend" />
   </Route>
 )
