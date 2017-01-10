@@ -1,0 +1,26 @@
+.page{
+  text-align: right;
+  moz-user-select: -moz-none;
+  -moz-user-select: none;
+  -o-user-select:none;
+  -khtml-user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  .page_no{
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    overflow: hidden;
+    &.current{
+      background: #64cdff;
+      border-radius: 2px;
+      color: #fff;
+    }
+    &.page_disabled{
+      cursor: default;
+      opacity: 0.3;
+    }
+  }
+}

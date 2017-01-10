@@ -8,7 +8,7 @@ export function getList (params, cookie) {
     method: 'GET',
     query: {
       pageSize: 10,
-      pageCur: 0
+      pageNumber: 1
     },
     cookie: cookie
   })

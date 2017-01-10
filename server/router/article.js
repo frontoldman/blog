@@ -24,19 +24,30 @@ router.post('/', function *(next) {
 
 // 获取文章列表
 router.get('/', function *(next) {
-  var { pageSize, pageCur } = this.query
+  var { pageSize, pageNumber } = this.query
+  var pageCount
 
-  var articleList = yield Article
-    .find()
-    .skip(pageCur * pageSize)
-    .limit((pageCur + 1) * pageSize)
-    .populate('creater', 'nickname')
+  function getDetail () {
+    return Article
+      .find()
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageNumber * pageSize)
+      .populate('creater', 'nickname')
+  }
+
+  function getSum () {
+    return Article.count()
+  }
+
+  var result = yield Promise.all([getDetail(), getSum()])
+  pageCount = result[1] / pageSize
+  Number.isInteger(pageCount) ? pageCount : pageCount++
 
   this.body = {
-    list: articleList,
+    list: result[0],
     page: {
-      pageCur: 0,
-      pageCount: 1000
+      pageNumber: pageNumber * 1,
+      pageCount: pageCount
     }
   }
 })

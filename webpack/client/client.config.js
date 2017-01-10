@@ -21,6 +21,7 @@ const cssLoader2 = [
   'localIdentName=[local]'
 ].join('&')
 
+
 const config = {
   // 项目根目录
   context: path.join(__dirname, '../../'),
@@ -34,6 +35,9 @@ const config = {
     filename: 'index.js',
     publicPath: '/build/',
     chunkFilename: '[name]-[chunkhash:8].js'
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json']
   },
   module: {
     preLoaders: [
@@ -51,7 +55,7 @@ const config = {
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('less'),
-        loader: ExtractTextPlugin.extract('style', `${cssLoader}`, 'less')
+        loader: ExtractTextPlugin.extract('style', `${cssLoader}!less`)
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('css'),
