@@ -64,27 +64,33 @@ function detail (state = {_id: '', title: '', content: '', creater: '', tags: []
   return state
 }
 
-function view (state = {loaded: false, data: {}}, action) {
+function view (state = {loaded: false, data: []}, action) {
   switch (action.type) {
     case article.CLEAR_DETAIL_VIEW:
       return {
         loaded: false,
-        data: {}
+        data: []
       }
     case article.GET_DETAIL_VIEW_SUCCESS:
-      return { loaded: true, data: action.data }
+      return {
+        loaded: true,
+        data: [
+          ...state.data,
+          action.data
+        ]
+      }
   }
   return state
 }
 
-function listView (state = {loaded: false, data: {list: [], page: {}}}, action) {
+function listView (state = {loaded: false, data: {list: [], page: {pageCount: 0, pageNumber: 0}}}, action) {
   switch (action.type) {
     case article.CLEAR_LIST_VIEW:
       return {
         loaded: false,
         data: {
           list: [],
-          page: {}
+          page: {pageCount: 0, pageNumber: 0}
         }
       }
     case article.GET_LIST_VIEW_SUCCESS:

@@ -3,55 +3,67 @@
  */
 
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import constants from '../../redux/constants/'
-import { getDetailView, clearArticleView } from '../../redux/actions/article/'
+import { getDetailView } from '../../redux/actions/article/'
 import { getView } from '../../redux/resouces/article/'
 
 class ArticleView extends Component {
-  static getInitData (params, cookie) {
+  static getInitData (params, cookie, dispatch) {
     return getView(params, cookie)
-      .then(data => {
-        return {
-          type: constants.article.GET_DETAIL_VIEW_SUCCESS,
-          data: data
-        }
-      })
+      .then(data => dispatch({
+        type: constants.article.GET_DETAIL_VIEW_SUCCESS,
+        data: data
+      }))
   }
 
   componentDidMount () {
-    const { view, getDetailView, params } = this.props
-    if (view && !view.loaded) {
-      this.constructor.getInitData(params)
-        .then(data => getDetailView(data))
+    const { params, hasLoaded, dispatch } = this.props
+    if (!hasLoaded) {
+      this.constructor.getInitData(params, null, dispatch)
     }
   }
 
   componentWillUnmount () {
-  //  执行清理工作
-    const { clearArticleView } = this.props
-    clearArticleView()
   }
 
   render () {
-    const { data } = this.props.view
+    const { article } = this.props
 
     return (<div className="article-detail">
-      <h1>{data.title}</h1>
-      <p>{data.content}</p>
+      <h1>{article.title}</h1>
+      <p>{article.content}</p>
       <div><Link to={'/frontend/article'}>文章列表</Link></div>
     </div>)
   }
 }
 
 function mapStateToProps (state, ownProps) {
+  var id = ownProps.params.id
+  var article = state.article.view.data.filter(article => id === article._id)
+  var hasLoaded = false
+  if (article.length) {
+    article = article[0]
+    hasLoaded = true
+  } else {
+    article = {}
+    hasLoaded = false
+  }
+
   return {
-    view: state.article.view
+    article,
+    hasLoaded
   }
 }
 
-export default connect(mapStateToProps, {
-  getDetailView,
-  clearArticleView
-})(ArticleView)
+// dispatch 可以放置到props上
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    dispatch,
+    ...bindActionCreators({getDetailView}, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleView)

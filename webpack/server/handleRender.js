@@ -60,7 +60,7 @@ function fetchComponentData (dispatch, components, params, header) {
   })
 
   const fetch = promises.map(promise => {
-    return promise(params, header.cookie).then(action => dispatch({...action, loaded: true}))
+    return promise(params, header.cookie, dispatch)
   })
 
   return Promise.all(fetch)

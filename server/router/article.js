@@ -26,6 +26,7 @@ router.post('/', function *(next) {
 router.get('/', function *(next) {
   var { pageSize, pageNumber } = this.query
   var pageCount
+  var method
 
   function getDetail () {
     return Article
@@ -41,7 +42,8 @@ router.get('/', function *(next) {
 
   var result = yield Promise.all([getDetail(), getSum()])
   pageCount = result[1] / pageSize
-  Number.isInteger(pageCount) ? pageCount : pageCount++
+  method = Number.isInteger(pageCount) ? Math.floor : Math.ceil
+  pageCount = method.call(Math, pageCount)
 
   this.body = {
     list: result[0],

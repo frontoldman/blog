@@ -5,6 +5,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { bindActionCreators } from 'redux'
 import Page from '../../component/Page/index'
 import util from '../../../util/'
 import constants from '../../redux/constants/'
@@ -13,22 +14,26 @@ import { getList } from '../../redux/resouces/article/'
 import listStyle from './list_style.less'
 
 class ArticleList extends Component {
-  static getInitData (params, cookie) {
+  static getInitData (params, cookie, dispatch) {
     return getList(params, cookie)
-      .then(data => {
-        return {
-          type: constants.article.GET_LIST_VIEW_SUCCESS,
-          data: data
-        }
-      })
+      .then(data => dispatch({
+        type: constants.article.GET_LIST_VIEW_SUCCESS,
+        data: data
+      }))
+  }
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      __init__: false
+    }
   }
 
   componentWillMount () {
-    const { listView, getArticleViewList } = this.props
-    if (listView && !listView.loaded) {
-      this.constructor.getInitData()
-        .then(data => getArticleViewList())
+    if (this.state.__init__) {
+      this.constructor.getInitData({}, null, this.props.dispatch)
     }
+    this.setState({'__init__': true})
   }
 
   changePage (pageNumber) {
@@ -36,9 +41,9 @@ class ArticleList extends Component {
   }
 
   componentWillUnmount () {
-    //  执行清理工作
-    const { clearArticleList } = this.props
-    clearArticleList()
+    // //  执行清理工作
+    // const { clearArticleList } = this.props
+    // clearArticleList()
   }
 
   render () {
@@ -46,7 +51,7 @@ class ArticleList extends Component {
     return (<div className="group-list">
       <h1 className={listStyle.title}>文章列表</h1>
       <ul className={listStyle.article_list}>
-        {listView.data.list.map((item, index) => {
+        {listView.list.map((item, index) => {
           return (
             <li key={index}>
               <Link to={'/frontend/article/' + item._id}>{item.title}</Link>
@@ -59,7 +64,7 @@ class ArticleList extends Component {
         })}
       </ul>
       <div className={listStyle.page}>
-        <Page pageChange={this.changePage} pageCount={listView.data.page.pageCount} pageNumber={listView.data.page.pageNumber}></Page>
+        <Page pageChange={this.changePage} pageCount={listView.page.pageCount} pageNumber={listView.page.pageNumber}></Page>
       </div>
     </div>)
   }
@@ -67,11 +72,18 @@ class ArticleList extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    listView: state.article.listView
+    listView: state.article.listView.data
   }
 }
 
-export default connect(mapStateToProps, {
-  getArticleViewList,
-  clearArticleList
-})(ArticleList)
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    dispatch,
+    ...bindActionCreators({
+      getArticleViewList,
+      clearArticleList
+    }, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleList)
