@@ -15,8 +15,6 @@ export default class Page extends Component {
   constructor (props) {
     super(props)
 
-    console.log(props)
-
     this.state = {
       ...props,
       max: 9,

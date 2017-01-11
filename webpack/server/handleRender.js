@@ -35,7 +35,12 @@ const handleRender = function *(next) {
     _ctx.status = 302
     _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
   } else if (renderProps) {
-    yield fetchComponentData(store.dispatch, renderProps.components, renderProps.params, _ctx.header)
+    yield fetchComponentData(
+      store.dispatch,
+      renderProps.components,
+      renderProps.params,
+      renderProps.location.query,
+      _ctx.header)
 
     const component = (
       <Provider store={store}>
@@ -51,7 +56,7 @@ const handleRender = function *(next) {
   }
 }
 
-function fetchComponentData (dispatch, components, params, header) {
+function fetchComponentData (dispatch, components, params, query, header) {
   const promises = []
   components.forEach((current, index) => {
     if (current && current.WrappedComponent && current.WrappedComponent.getInitData) {
@@ -60,7 +65,7 @@ function fetchComponentData (dispatch, components, params, header) {
   })
 
   const fetch = promises.map(promise => {
-    return promise(params, header.cookie, dispatch)
+    return promise(params, header.cookie, dispatch, query)
   })
 
   return Promise.all(fetch)

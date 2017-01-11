@@ -9,41 +9,50 @@ import { bindActionCreators } from 'redux'
 import Page from '../../component/Page/index'
 import util from '../../../util/'
 import constants from '../../redux/constants/'
-import { getArticleViewList, clearArticleList } from '../../redux/actions/article/'
+import { getArticleViewList } from '../../redux/actions/article/'
 import { getList } from '../../redux/resouces/article/'
 import listStyle from './list_style.less'
 
 class ArticleList extends Component {
-  static getInitData (params, cookie, dispatch) {
-    return getList(params, cookie)
+  static getInitData (params = {}, cookie, dispatch, query = {}) {
+    return getList({
+      ...params,
+      ...query
+    }, cookie)
       .then(data => dispatch({
         type: constants.article.GET_LIST_VIEW_SUCCESS,
         data: data
       }))
   }
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      __init__: false
-    }
+  static willGetRemoteData = false
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount () {
-    if (this.state.__init__) {
-      this.constructor.getInitData({}, null, this.props.dispatch)
+  constructor (props) {
+    super(props)
+    if (this.constructor.willGetRemoteData) {
+      this.getList(this.props.location.query.pageNumber)
     }
-    this.setState({'__init__': true})
+    this.constructor.willGetRemoteData = true
+    this.changePage = this.changePage.bind(this)
   }
 
   changePage (pageNumber) {
-    console.log(pageNumber)
+    this.context.router.replace(`/frontend/article?pageNumber=${pageNumber}`)
+    this.getList(pageNumber)
+  }
+
+  getList (pageNumber) {
+    this.constructor.getInitData({
+      pageNumber
+    }, null, this.props.dispatch)
   }
 
   componentWillUnmount () {
-    // //  执行清理工作
-    // const { clearArticleList } = this.props
-    // clearArticleList()
+
   }
 
   render () {
@@ -80,8 +89,7 @@ function mapDispatchToProps (dispatch, ownProps) {
   return {
     dispatch,
     ...bindActionCreators({
-      getArticleViewList,
-      clearArticleList
+      getArticleViewList
     }, dispatch)
   }
 }
