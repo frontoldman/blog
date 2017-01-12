@@ -120,7 +120,7 @@ function getList () {
  * @param id
  */
 function getDetailById (id) {
-  return fetch(`/api/article/${id}`, {
+  return fetch(`/api/article/admin/${id}`, {
     method: 'GET'
   })
 }

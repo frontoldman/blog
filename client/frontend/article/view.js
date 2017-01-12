@@ -37,7 +37,7 @@ class ArticleView extends Component {
       <h1 className={viewStyle.title}>{article.title}</h1>
       <div className="columns">
         <div className="four-fifths column">
-          <p className={viewStyle.content}>{article.content}</p>
+          <p className={viewStyle.content} dangerouslySetInnerHTML={{__html: article.content}}></p>
         </div>
         <div className="one-fifth column">
           <p className={viewStyle.tags}>

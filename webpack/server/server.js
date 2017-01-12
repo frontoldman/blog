@@ -2,12 +2,14 @@
  * Created by zhangran on 16/9/22.
  */
 import path from 'path'
+import zlib from 'zlib'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import logger from 'koa-logger'
 import session from 'koa-session-store'
 import MongooseStore from 'koa-session-mongoose'
 import favicon from 'koa-favicon'
+import compress from 'koa-compress'
 
 import {server} from '../../config'
 import handleRender from './handleRender'
@@ -29,6 +31,14 @@ app.use(bodyParser())
 app.use(auth)
 app.use(router.routes())
 app.use(handleRender)
+
+app.use(compress({
+  filter: function (content_type) {
+    return /text/i.test(content_type)
+  },
+  threshold: 2048,
+  flush: zlib.Z_SYNC_FLUSH
+}))
 
 app.on('error', function(err){
   console.log(err)

@@ -5,6 +5,8 @@
 import mongoose from 'mongoose'
 import { db } from '../../config'
 
+mongoose.Promise = global.Promise
+
 function startDB (fn) {
   var connection = mongoose.connect(db.url, error => {
     if (error) {

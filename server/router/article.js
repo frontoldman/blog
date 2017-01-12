@@ -4,6 +4,7 @@
 
 import koaRouter from 'koa-router'
 import Article from '../model/Article'
+import markdown from 'markdown'
 
 const router = koaRouter()
 
@@ -28,8 +29,15 @@ router.get('/', function *(next) {
   this.body = yield *queryList({}, pageSize, pageNumber)
 })
 
-// 获取文章详情
+// 前台获取文章详情
 router.get('/:id', function *(next) {
+  var article = yield Article.findOne({_id: this.params.id})
+  article.content = markdown.markdown.toHTML(article.content)
+  this.body = article
+})
+
+// 管理员获取文章详情
+router.get('/admin/:id', function *(next) {
   var article = yield Article.findOne({_id: this.params.id})
   this.body = article
 })
