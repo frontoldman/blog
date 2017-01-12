@@ -1,13 +1,18 @@
 import {createStore, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
-// import createLogger from 'redux-logger'
+import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
 
-// const logger = createLogger()
+const middlewares = []
+const logger = createLogger()
+
+middlewares.push(thunk)
+// 服务器端不打印redux-log
+typeof window !== 'undefined' ? middlewares.push(logger) : ''
+
 const configureStoreProd = (initialState = window.__INITIAL_STATE__) => {
   const finalCreateStore = compose(
-    // applyMiddleware(thunk, logger)
-    applyMiddleware(thunk)
+    applyMiddleware(...middlewares)
   )(createStore)
 
   const store = finalCreateStore(rootReducer, initialState)
