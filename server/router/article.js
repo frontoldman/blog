@@ -73,7 +73,7 @@ function *queryList (query, pageSize, pageNumber) {
   }
 
   function getSum () {
-    return Article.count()
+    return Article.count(query)
   }
 
   var result = yield Promise.all([getDetail(), getSum()])
