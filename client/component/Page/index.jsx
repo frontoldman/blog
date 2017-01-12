@@ -39,10 +39,6 @@ export default class Page extends Component {
   }
 
   handlePageChange (e, index) {
-    this.setState({
-      pageNumber: index
-    })
-
     this.props.pageChange(index)
   }
 
@@ -55,7 +51,7 @@ export default class Page extends Component {
   }
 
   drawSketchBtns (index, pagesEles, pageRule) {
-    const {pageNumber, pageCount} = this.state
+    const {pageNumber, pageCount} = this.props
     if (index <= pageRule.start) {
       this.drawPageBtn(pagesEles, index, pageNumber)
     } else if (index === pageRule.start + 1 && pageCount > this.state.max) {
@@ -66,7 +62,7 @@ export default class Page extends Component {
   }
 
   getPages () {
-    const {pageNumber, pageCount} = this.state
+    const {pageNumber, pageCount} = this.props
     var pagesEles = []
     var i
     for (i = 1; i <= pageCount; i++) {
@@ -93,7 +89,8 @@ export default class Page extends Component {
   }
 
   render () {
-    const {pageNumber, pageCount} = this.state
+    const {pageNumber, pageCount} = this.props
+
     return (
       <div className={style.page}>
         {

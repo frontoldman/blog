@@ -3,18 +3,42 @@
  */
 
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { getArticleList } from '../../redux/actions/article/'
+import Page from '../../component/Page/index'
+import { getOwnerList } from './resources'
 
-class GroupList extends Component {
+export default class GroupList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      list: [],
+      page: {
+        pageCount: 1,
+        pageNumber: 1
+      }
+    }
+
+    this.changePage = this.changePage.bind(this)
+  }
+
   componentDidMount () {
-    const { getArticleList } = this.props
-    getArticleList()
+    this.getList(this.state.page.pageNumber)
+  }
+
+  getList (pageNumber) {
+    getOwnerList({pageNumber})
+      .then(data => this.setState({
+        list: data.list,
+        page: data.page
+      }))
+  }
+
+  changePage (index) {
+    this.getList(index)
   }
 
   render () {
-    const { list } = this.props.listData
+    const { list, page } = this.state
 
     return (<div className="group-list">
       <div className="my-2 text-right">
@@ -43,16 +67,8 @@ class GroupList extends Component {
 
         </tbody>
       </table>
+      <br/>
+      <Page pageChange={this.changePage} pageCount={page.pageCount} pageNumber={page.pageNumber}></Page>
     </div>)
   }
 }
-
-function mapStateToProps (state, ownProps) {
-  return {
-    listData: state.article.listData
-  }
-}
-
-export default connect(mapStateToProps, {
-  getArticleList
-})(GroupList)

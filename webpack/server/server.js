@@ -30,6 +30,10 @@ app.use(auth)
 app.use(router.routes())
 app.use(handleRender)
 
+app.on('error', function(err){
+  console.log(err)
+});
+
 export default function (fn) {
   app.listen(server.port, '0.0.0.0', error => {
     if (error) {

@@ -40,10 +40,14 @@ class ArticleView extends Component {
           <p className={viewStyle.content}>{article.content}</p>
         </div>
         <div className="one-fifth column">
-          <p className={viewStyle.content}>{article.content}</p>
+          <p className={viewStyle.tags}>
+            {article.tags && article.tags.map((tag, index) => {
+              return (<span key={index} className={viewStyle.tag}>{tag}</span>)
+            })}
+          </p>
         </div>
       </div>
-      <div className={viewStyle.back}><Link to={'/frontend/article'}>返回文章列表</Link></div>
+      <div className={viewStyle.back}><Link to={'/frontend/article'}>←文章列表</Link></div>
     </div>)
   }
 }

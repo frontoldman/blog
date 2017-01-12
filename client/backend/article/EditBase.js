@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
+import Back from '../../component/Back/index'
 
 export default class EditBase extends Component {
   constructor (props) {
@@ -74,6 +75,7 @@ export default class EditBase extends Component {
         <dl className="form-group">
           <dd>
             <button type="submit" className="btn btn-primary">保存</button>
+            <Back></Back>
           </dd>
         </dl>
       </form>

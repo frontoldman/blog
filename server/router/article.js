@@ -25,33 +25,7 @@ router.post('/', function *(next) {
 // 获取文章列表
 router.get('/', function *(next) {
   var { pageSize, pageNumber } = this.query
-  var pageCount
-  var method
-
-  function getDetail () {
-    return Article
-      .find()
-      .skip((pageNumber - 1) * pageSize)
-      .limit(pageNumber * pageSize)
-      .populate('creater', 'nickname')
-  }
-
-  function getSum () {
-    return Article.count()
-  }
-
-  var result = yield Promise.all([getDetail(), getSum()])
-  pageCount = result[1] / pageSize
-  method = Number.isInteger(pageCount) ? Math.floor : Math.ceil
-  pageCount = method.call(Math, pageCount)
-
-  this.body = {
-    list: result[0],
-    page: {
-      pageNumber: pageNumber * 1,
-      pageCount: pageCount
-    }
-  }
+  this.body = yield *queryList({}, pageSize, pageNumber)
 })
 
 // 获取文章详情
@@ -70,5 +44,42 @@ router.put('/:id', function *(next) {
     {title, content, tags: tags.split(/\s+/), updateTime: new Date()})
   this.body = article
 })
+
+// 获取管理员文章列表
+router.get('/admin', function *(next) {
+  var { pageSize, pageNumber } = this.query
+  var user = this.session.user
+  this.body = yield *queryList({creater: user._id}, pageSize, pageNumber)
+})
+
+function *queryList (query, pageSize, pageNumber) {
+  var method
+  var pageCount
+
+  function getDetail () {
+    return Article
+      .find(query)
+      .skip((pageNumber - 1) * pageSize)
+      .limit(pageNumber * pageSize)
+      .populate('creater', 'nickname')
+  }
+
+  function getSum () {
+    return Article.count()
+  }
+
+  var result = yield Promise.all([getDetail(), getSum()])
+  pageCount = result[1] / pageSize
+  method = Number.isInteger(pageCount) ? Math.floor : Math.ceil
+  pageCount = method.call(Math, pageCount)
+
+  return {
+    list: result[0],
+    page: {
+      pageNumber: pageNumber * 1,
+      pageCount: pageCount
+    }
+  }
+}
 
 export default router
