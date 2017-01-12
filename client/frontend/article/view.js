@@ -9,6 +9,7 @@ import { Link } from 'react-router'
 import constants from '../../redux/constants/'
 import { getDetailView } from '../../redux/actions/article/'
 import { getView } from '../../redux/resouces/article/'
+import viewStyle from './view_style.less'
 
 class ArticleView extends Component {
   static getInitData (params, cookie, dispatch) {
@@ -32,10 +33,17 @@ class ArticleView extends Component {
   render () {
     const { article } = this.props
 
-    return (<div className="article-detail">
-      <h1>{article.title}</h1>
-      <p>{article.content}</p>
-      <div><Link to={'/frontend/article'}>文章列表</Link></div>
+    return (<div className={viewStyle.article_detail}>
+      <h1 className={viewStyle.title}>{article.title}</h1>
+      <div className="columns">
+        <div className="four-fifths column">
+          <p className={viewStyle.content}>{article.content}</p>
+        </div>
+        <div className="one-fifth column">
+          <p className={viewStyle.content}>{article.content}</p>
+        </div>
+      </div>
+      <div className={viewStyle.back}><Link to={'/frontend/article'}>返回文章列表</Link></div>
     </div>)
   }
 }

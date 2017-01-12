@@ -25,18 +25,15 @@ class ArticleList extends Component {
       }))
   }
 
-  static willGetRemoteData = false
-
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
   constructor (props) {
     super(props)
-    if (this.constructor.willGetRemoteData) {
-      this.getList(this.props.location.query.pageNumber)
+    if (props.location.action === 'PUSH') {
+      this.getList(props.location.query.pageNumber)
     }
-    this.constructor.willGetRemoteData = true
     this.changePage = this.changePage.bind(this)
   }
 
