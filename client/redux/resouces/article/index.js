@@ -20,3 +20,16 @@ export function getView (params = {}, cookie) {
     cookie: cookie
   })
 }
+
+export function saveComment (params = {}, cookie) {
+  return fetch(`/api/comment/${params.articleId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: {
+      content: params.commentContent
+    },
+    cookie: cookie
+  })
+}
