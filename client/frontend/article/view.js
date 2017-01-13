@@ -48,6 +48,26 @@ class ArticleView extends Component {
         </div>
       </div>
       <div className={viewStyle.back}><Link to={'/frontend/article'}>←文章列表</Link></div>
+
+      <div>
+        <ul></ul>
+
+        <div className="mt-5">
+          <form>
+            <dl className="form-group">
+              <dt><label>添加评论</label></dt>
+              <dd>
+                <textarea className="form-control input-block" placeholder="支持markdown语法"></textarea>
+              </dd>
+            </dl>
+
+            <div className="form-actions mt-2">
+              <button type="button" className="btn btn-primary">提交评论</button>
+              <button type="button" className="btn">取消</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>)
   }
 }
