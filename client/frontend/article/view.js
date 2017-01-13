@@ -8,7 +8,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import constants from '../../redux/constants/'
 import { getDetailView } from '../../redux/actions/article/'
-import { getView, saveComment } from '../../redux/resouces/article/'
+import { getView } from '../../redux/resouces/article/'
+import Comment from './Comment'
 import viewStyle from './view_style.less'
 
 class ArticleView extends Component {
@@ -20,33 +21,11 @@ class ArticleView extends Component {
       }))
   }
 
-  constructor (props) {
-    super(props)
-    this.handleCommentSubmit = this.handleCommentSubmit.bind(this)
-    this.handleCommentChange = this.handleCommentChange.bind(this)
-    this.state = {
-      commentContent: ''
-    }
-  }
-
   componentDidMount () {
     const { params, hasLoaded, dispatch } = this.props
     if (!hasLoaded) {
       this.constructor.getInitData(params, null, dispatch)
     }
-  }
-
-  handleCommentChange (e) {
-    this.setState({
-      commentContent: e.target.value
-    })
-  }
-
-  handleCommentSubmit () {
-    saveComment({
-      articleId: this.props.article._id,
-      commentContent: this.state.commentContent
-    }).then(data => console.log('success'))
   }
 
   componentWillUnmount () {
@@ -70,26 +49,7 @@ class ArticleView extends Component {
         </div>
       </div>
       <div className={viewStyle.back}><Link to={'/frontend/article'}>←文章列表</Link></div>
-
-      <div>
-        <ul></ul>
-
-        <div className="mt-5">
-          <form>
-            <dl className="form-group">
-              <dt><label>添加评论</label></dt>
-              <dd>
-                <textarea className="form-control input-block" onChange={this.handleCommentChange} value={this.state.commentContent} placeholder="支持markdown语法"></textarea>
-              </dd>
-            </dl>
-
-            <div className="form-actions mt-2">
-              <button type="button" onClick={this.handleCommentSubmit} className="btn btn-primary">提交评论</button>
-              <button type="button" className="btn">取消</button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <Comment articleId={article._id}></Comment>
     </div>)
   }
 }

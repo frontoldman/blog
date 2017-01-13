@@ -10,7 +10,7 @@ export default class Page extends Component {
     pageCount: PropTypes.number.isRequired,
     pageNumber: PropTypes.number.isRequired,
     pageChange: PropTypes.func.isRequired
-  };
+  }
 
   constructor (props) {
     super(props)

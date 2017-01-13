@@ -79,6 +79,19 @@ function view (state = {loaded: false, data: []}, action) {
           action.data
         ]
       }
+    case article.GET_COMMENT:
+      state.data.forEach(article => {
+        if (article._id === action.data.article) {
+          article.comment = action.data
+        }
+      })
+
+      return {
+        loaded: true,
+        data: [
+          ...state.data
+        ]
+      }
   }
   return state
 }

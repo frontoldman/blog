@@ -21,4 +21,11 @@ router.post('/:articleId', function *(next) {
   this.body = {code: 1000}
 })
 
+router.get('/:articleId', function *(next) {
+  var { articleId } = this.params
+  this.body = yield Comment
+    .find({article: articleId})
+    .populate('creater')
+})
+
 export default router

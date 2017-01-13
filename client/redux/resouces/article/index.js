@@ -10,14 +10,14 @@ export function getList (params = {}, cookie) {
       pageSize: 10,
       pageNumber: params.pageNumber || 1
     },
-    cookie: cookie
+    cookie
   })
 }
 
 export function getView (params = {}, cookie) {
   return fetch(`/api/article/${params.id}`, {
     method: 'GET',
-    cookie: cookie
+    cookie
   })
 }
 
@@ -30,6 +30,13 @@ export function saveComment (params = {}, cookie) {
     body: {
       content: params.commentContent
     },
-    cookie: cookie
+    cookie
+  })
+}
+
+export function getCommentList (params = {}, cookie) {
+  return fetch(`/api/comment/${params.articleId}`, {
+    method: 'GET',
+    cookie
   })
 }
