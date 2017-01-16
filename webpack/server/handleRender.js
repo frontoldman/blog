@@ -26,6 +26,8 @@ const handleRender = function *(next) {
     }
   })
 
+  const isomorphicComponents = getAllIsomorphicComponents(matchResult.renderProps.components)
+
   const {error, redirectLocation, renderProps} = matchResult
 
   if (error) {
@@ -37,7 +39,7 @@ const handleRender = function *(next) {
   } else if (renderProps) {
     yield fetchComponentData(
       store.dispatch,
-      renderProps.components,
+      isomorphicComponents,
       renderProps.params,
       renderProps.location.query,
       _ctx.header)
@@ -69,6 +71,23 @@ function fetchComponentData (dispatch, components, params, query, header) {
   })
 
   return Promise.all(fetch)
+}
+
+function getAllIsomorphicComponents (defaultComponents) {
+  var newComponents = []
+  defaultComponents.forEach((current) => {
+    if (current && current.WrappedComponent) {
+      var { isomorphicComponents } = current.WrappedComponent
+      if (Array.isArray(isomorphicComponents) && isomorphicComponents.length) {
+        newComponents = newComponents.concat(isomorphicComponents)
+      }
+    }
+  })
+
+  return [
+    ...newComponents,
+    ...defaultComponents
+  ]
 }
 
 export default handleRender

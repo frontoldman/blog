@@ -115,10 +115,22 @@ function listView (state = {loaded: false, data: {list: [], page: {pageCount: 0,
   return state
 }
 
+function comment (state = [], action) {
+  switch (action.type) {
+    case article.GET_COMMENT:
+      return [
+        ...action.data
+      ]
+  }
+
+  return state
+}
+
 export default combineReducers({
   changed,
   listData,
   detail,
   view,
-  listView
+  listView,
+  comment
 })

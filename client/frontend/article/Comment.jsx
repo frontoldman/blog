@@ -3,18 +3,24 @@
  */
 
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+// import { browserHistory } from 'react-router'
 import { saveComment, getCommentList } from '../../redux/resouces/article/'
 import constants from '../../redux/constants/'
+import style from './Comment_style.less'
+import util from '../../../util/'
 
 class Comment extends Component {
   static propTypes = {
     articleId: PropTypes.any.isRequired
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+    location: React.PropTypes.object.isRequired
+  }
   static getInitData (params, cookie, dispatch) {
-    return getCommentList(params, cookie)
+    return getCommentList({articleId: params.id}, cookie)
       .then(data => dispatch({
         type: constants.article.GET_COMMENT,
         data: data
@@ -28,7 +34,13 @@ class Comment extends Component {
     this.state = {
       commentContent: ''
     }
-    // getCommentList({articleId: props.articleId})
+  }
+
+  componentDidMount () {
+    const { props } = this
+    if (this.context.location.action === 'PUSH') {
+      this.constructor.getInitData({id: props.articleId}, null, props.dispatch)
+    }
   }
 
   handleCommentChange (e) {
@@ -47,9 +59,19 @@ class Comment extends Component {
   }
 
   render () {
+    const { comment } = this.props
     return (
       <div>
-        <ul></ul>
+        <ul className={style.list}>
+          {comment.map((item, index) => {
+            return (<li className="border mt-3 mb-3" key={item._id}>
+              <div>
+                {index + 1}楼 {util.timestampFormat(item.createTime, 'yyyy-MM-dd hh:mm')} | {item.creater.nickname}
+              </div>
+              <div className={style.content}>{item.content}</div>
+            </li>)
+          })}
+        </ul>
 
         <div className="mt-5">
           <form>
@@ -72,30 +94,15 @@ class Comment extends Component {
 }
 
 function mapStateToProps (state, ownProps) {
-  var id = ownProps.articleId
-  var article = state.article.view.data.filter(article => id === article._id)
-  var commentList = []
-  var hasLoaded = false
-  if (article.length) {
-    commentList = article[0].commentList
-    hasLoaded = true
-  } else {
-    commentList = []
-    hasLoaded = false
-  }
-
   return {
-    article,
-    hasLoaded,
-    commentList
+    comment: state.article.comment
   }
 }
 
 // dispatch 可以放置到props上
 function mapDispatchToProps (dispatch, ownProps) {
   return {
-    dispatch,
-    ...bindActionCreators({getCommentList}, dispatch)
+    dispatch
   }
 }
 

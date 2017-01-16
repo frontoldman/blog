@@ -21,6 +21,8 @@ class ArticleView extends Component {
       }))
   }
 
+  static isomorphicComponents = [Comment]
+
   componentDidMount () {
     const { params, hasLoaded, dispatch } = this.props
     if (!hasLoaded) {
