@@ -25,9 +25,7 @@ const handleRender = function *(next) {
       renderProps
     }
   })
-
-  const isomorphicComponents = getAllIsomorphicComponents(matchResult.renderProps.components)
-
+  
   const {error, redirectLocation, renderProps} = matchResult
 
   if (error) {
@@ -37,6 +35,7 @@ const handleRender = function *(next) {
     _ctx.status = 302
     _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
   } else if (renderProps) {
+    let isomorphicComponents = getAllIsomorphicComponents(renderProps.components)
     yield fetchComponentData(
       store.dispatch,
       isomorphicComponents,

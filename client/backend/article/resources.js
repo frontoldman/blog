@@ -12,3 +12,9 @@ export function getOwnerList (params = {}) {
     }
   })
 }
+
+export function deleteArticleById (id) {
+  return fetch(`/api/article/${id}`, {
+    method: 'delete'
+  })
+}

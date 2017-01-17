@@ -5,7 +5,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import Page from '../../component/Page/index'
-import { getOwnerList } from './resources'
+import { getOwnerList, deleteArticleById } from './resources'
 
 export default class GroupList extends Component {
   constructor (props) {
@@ -19,6 +19,7 @@ export default class GroupList extends Component {
     }
 
     this.changePage = this.changePage.bind(this)
+    this.deleteArticle = this.deleteArticle.bind(this)
   }
 
   componentDidMount () {
@@ -35,6 +36,11 @@ export default class GroupList extends Component {
 
   changePage (index) {
     this.getList(index)
+  }
+
+  deleteArticle (e, id) {
+    deleteArticleById(id)
+      .then(() => this.getList(this.state.page.pageNumber))
   }
 
   render () {
@@ -60,7 +66,7 @@ export default class GroupList extends Component {
             <td className="border py-2 px-4">{article.title}</td>
             <td className="border py-2 px-4 text-center">
               <Link to={'/admin/article/' + article._id}><button className="btn btn-primary" type="button">编辑</button></Link>
-              <button className="btn btn-danger ml-1" type="button">删除</button>
+              <button className="btn btn-danger ml-1" onClick={e => this.deleteArticle(e, article._id)} type="button">删除</button>
             </td>
           </tr>)
         })}

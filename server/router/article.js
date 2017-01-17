@@ -42,6 +42,14 @@ router.get('/admin/:id', function *(next) {
   this.body = article
 })
 
+/**
+ * 删除文章
+ */
+router.delete('/:id', function *(next) {
+  var article = yield Article.findOneAndRemove({_id: this.params.id})
+  this.body = article
+})
+
 // 修改文章信息
 router.put('/:id', function *(next) {
   var body = this.request.body

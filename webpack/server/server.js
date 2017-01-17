@@ -29,9 +29,6 @@ app.use(session({
 app.use(bodyParser())
 
 app.use(auth)
-app.use(router.routes())
-app.use(handleRender)
-
 app.use(compress({
   filter: function (content_type) {
     return /text/i.test(content_type)
@@ -39,6 +36,9 @@ app.use(compress({
   threshold: 2048,
   flush: zlib.Z_SYNC_FLUSH
 }))
+
+app.use(router.routes())
+app.use(handleRender)
 
 app.on('error', function(err){
   console.log(err)
