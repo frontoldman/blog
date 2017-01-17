@@ -1,6 +1,7 @@
 /**
  * Created by zhangran on 16/9/22.
  */
+import koaRouter from 'koa-router'
 import React from 'react'
 import {renderToString} from 'react-dom/server'
 import {match, RouterContext} from 'react-router'
@@ -8,6 +9,8 @@ import {Provider} from 'react-redux'
 import configureStore from '../../client/redux/store'
 import routes from '../../client/routes'
 import Html from './Html'
+
+const router = koaRouter()
 
 const handleRender = function *(next) {
   const initialState = {}
@@ -25,7 +28,7 @@ const handleRender = function *(next) {
       renderProps
     }
   })
-  
+
   const {error, redirectLocation, renderProps} = matchResult
 
   if (error) {
@@ -57,7 +60,7 @@ const handleRender = function *(next) {
   }
 }
 
-function fetchComponentData (dispatch, components, params, query, header) {
+function fetchComponentData(dispatch, components, params, query, header) {
   const promises = []
   components.forEach((current, index) => {
     if (current && current.WrappedComponent && current.WrappedComponent.getInitData) {
@@ -72,11 +75,11 @@ function fetchComponentData (dispatch, components, params, query, header) {
   return Promise.all(fetch)
 }
 
-function getAllIsomorphicComponents (defaultComponents) {
+function getAllIsomorphicComponents(defaultComponents) {
   var newComponents = []
   defaultComponents.forEach((current) => {
     if (current && current.WrappedComponent) {
-      var { isomorphicComponents } = current.WrappedComponent
+      var {isomorphicComponents} = current.WrappedComponent
       if (Array.isArray(isomorphicComponents) && isomorphicComponents.length) {
         newComponents = newComponents.concat(isomorphicComponents)
       }
@@ -89,4 +92,9 @@ function getAllIsomorphicComponents (defaultComponents) {
   ]
 }
 
-export default handleRender
+/**
+ * 解决非get 404到达这个页面
+ */
+router.get('/*', handleRender)
+
+export default router.routes()

@@ -19,6 +19,7 @@ class Comment extends Component {
     router: React.PropTypes.object.isRequired,
     location: React.PropTypes.object.isRequired
   }
+
   static getInitData (params, cookie, dispatch) {
     return getCommentList({articleId: params.id}, cookie)
       .then(data => dispatch({

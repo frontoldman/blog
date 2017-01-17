@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
+import Upload from 'rc-upload'
 import Back from '../../component/Back/index'
 
 export default class EditBase extends Component {
@@ -19,7 +20,11 @@ export default class EditBase extends Component {
     passwordRepeat: '',
     groupId: this.props.detail.groupId || '',
     nickname: this.props.detail.nickname || '',
-    valid: true
+    valid: true,
+    uploadProps: {
+      supportServerRender: true,
+      action: '/api/upload'
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -86,6 +91,14 @@ export default class EditBase extends Component {
         <dl className="form-group">
           <dt><label>昵称</label></dt>
           <dd><input className="form-control" value={this.state.nickname} onChange={ e => (this.setState({nickname: e.target.value}))} type="text" placeholder="输入用户组名称" /></dd>
+        </dl>
+        <dl className="form-group">
+          <dt><label>头像</label></dt>
+          <dd>
+            <Upload {...this.state.uploadProps} component="div" style={{ display: 'inline-block' }}>
+              <img className="avatar" src="https://avatars3.githubusercontent.com/u/9919?v=3&s=144" width="72" height="72" />
+            </Upload>
+          </dd>
         </dl>
         <dl className="form-group">
           <dt><label>密码</label></dt>
