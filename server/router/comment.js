@@ -26,7 +26,11 @@ router.get('/:articleId', function *(next) {
   var comment = yield Comment
     .find({article: articleId})
     .populate('creater')
-  comment.content = markdown.markdown.toHTML(comment.content)
+
+  if (Array.isArray(comment)) {
+    comment.forEach(item => item.content = markdown.markdown.toHTML(item.content))
+  }
+
   this.body = comment
 })
 

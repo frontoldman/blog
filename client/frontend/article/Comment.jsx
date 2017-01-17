@@ -68,7 +68,7 @@ class Comment extends Component {
               <div>
                 {index + 1}楼 {util.timestampFormat(item.createTime, 'yyyy-MM-dd hh:mm')} | {item.creater.nickname}
               </div>
-              <div className={style.content}>{item.content}</div>
+              <div className={style.content} dangerouslySetInnerHTML={{__html: item.content}}></div>
             </li>)
           })}
         </ul>
