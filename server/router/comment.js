@@ -23,9 +23,11 @@ router.post('/:articleId', function *(next) {
 
 router.get('/:articleId', function *(next) {
   var { articleId } = this.params
-  this.body = yield Comment
+  var comment = yield Comment
     .find({article: articleId})
     .populate('creater')
+  comment.content = markdown.markdown.toHTML(comment.content)
+  this.body = comment
 })
 
 export default router

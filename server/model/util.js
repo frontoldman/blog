@@ -3,6 +3,9 @@
  */
 
 export function convertUTCDateToLocalDate (date) {
+  if (!(date instanceof Date)) {
+    return
+  }
   var newDate = new Date(date.getTime())
   var offset = date.getTimezoneOffset() / 60
   var hours = date.getHours()
@@ -13,7 +16,7 @@ export function convertUTCDateToLocalDate (date) {
 export function addPublicHook (Schema) {
   Schema.post('find', function(result) {
     if (Array.isArray(result)) {
-      result.forEach(item => updateTime(item))
+      result.forEach(updateTime)
     } else if (typeof result === 'object') {
       updateTime(result)
     }
