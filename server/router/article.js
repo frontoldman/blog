@@ -57,7 +57,7 @@ router.put('/:id', function *(next) {
   tags = tags || ''
   var article = yield Article.update(
     {_id: this.params.id},
-    {title, content, tags: tags.split(/\s+/), updateTime: new Date()})
+    {title, content, tags: tags.split(/\s+/)})
   this.body = article
 })
 

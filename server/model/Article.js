@@ -1,5 +1,7 @@
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
+import mongoose from 'mongoose'
+import { addPublicHook } from './util'
+
+const Schema = mongoose.Schema
 
 var ArticleSchema = new Schema({
   title: String,
@@ -10,6 +12,8 @@ var ArticleSchema = new Schema({
   createTime: {type: Date, default: Date.now},
   updateTime: {type: Date, default: Date.now}
 })
+
+addPublicHook(ArticleSchema)
 
 var Article = mongoose.model('Article', ArticleSchema)
 

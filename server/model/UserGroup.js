@@ -1,4 +1,5 @@
-var mongoose = require('mongoose')
+import mongoose from 'mongoose'
+import { addPublicHook } from './util'
 var Schema = mongoose.Schema
 
 var UserGroupSchema = new Schema({
@@ -9,6 +10,8 @@ var UserGroupSchema = new Schema({
   createTime: {type: Date, default: Date.now},
   updateTime: {type: Date, default: Date.now}
 })
+
+addPublicHook(UserGroupSchema)
 
 var UserGroup = mongoose.model('UserGroup', UserGroupSchema)
 
