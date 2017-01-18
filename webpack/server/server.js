@@ -10,6 +10,7 @@ import session from 'koa-session-store'
 import MongooseStore from 'koa-session-mongoose'
 import favicon from 'koa-favicon'
 import compress from 'koa-compress'
+import koaStatic from 'koa-static'
 
 import {server} from '../../config'
 import handleRender from './handleRender'
@@ -31,8 +32,6 @@ app.use(bodyParser())
 app.use(multipartParser({
   uploadDir: path.resolve('./upload')
 }))
-
-app.use(auth)
 app.use(compress({
   filter: function (content_type) {
     return /text/i.test(content_type)
@@ -40,13 +39,15 @@ app.use(compress({
   threshold: 2048,
   flush: zlib.Z_SYNC_FLUSH
 }))
+app.use(koaStatic(path.resolve('./upload')))
 
+app.use(auth)
 app.use(router.routes())
 app.use(handleRender)
 
 app.on('error', function(err){
   console.log(err)
-});
+})
 
 export default function (fn) {
   app.listen(server.port, '0.0.0.0', error => {

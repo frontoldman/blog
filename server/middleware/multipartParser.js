@@ -15,15 +15,14 @@ export default function (options) {
       ...defaultOptions,
       ...options
     }
-    var isMutipart = this.request.is()
     var form
     var files
 
     if (!isValid(this.method)) {
-      yield  next
+      yield next
     }
 
-    if (isMutipart === 'multipart/form-data') {
+    if (this.is('multipart/form-data')) {
       files = yield parseForm(_options, this.req)
       this.request.files = files
     }
