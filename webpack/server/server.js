@@ -15,6 +15,7 @@ import {server} from '../../config'
 import handleRender from './handleRender'
 import router from '../../server/router/'
 import auth from '../../server/middleware/auth'
+import multipartParser from '../../server/middleware/multipartParser'
 
 var app = Koa()
 
@@ -27,6 +28,9 @@ app.use(session({
   store: new MongooseStore()
 }))
 app.use(bodyParser())
+app.use(multipartParser({
+  uploadDir: path.resolve('./upload')
+}))
 
 app.use(auth)
 app.use(compress({

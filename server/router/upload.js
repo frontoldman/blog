@@ -3,13 +3,15 @@
  */
 
 import koaRouter from 'koa-router'
-import body from 'koa-better-body'
 
 const router = koaRouter()
 
-router.post('/upload', body(), function *(next) {
-  console.log(this.request.files)
-  this.body = {}
+router.post('/upload', function *(next) {
+  const { files } = this.request
+
+  this.body = [
+    ...files
+  ]
 })
 
 export default router

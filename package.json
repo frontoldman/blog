@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "co": "^4.6.0",
+    "formidable": "^1.1.1",
     "isomorphic-fetch": "2.2.1",
     "koa": "^1.2.4",
     "koa-better-body": "^3.0.2",
