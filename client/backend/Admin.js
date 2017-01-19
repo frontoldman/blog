@@ -4,8 +4,10 @@
 
 import React, {Component} from 'react'
 import { Link } from 'react-router'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-export default class Admin extends Component {
+class Admin extends Component {
   state = {
     menu: [{
       'path': '/admin/group',
@@ -31,8 +33,11 @@ export default class Admin extends Component {
 
     return (
       <div>
-        <div className="blankslate">
+        <div className="blankslate position-relative">
           <h3>前端杂记</h3>
+          <div className="position-absolute right-0 top-0">
+            <img className="avatar" src={this.state.avatar} width="72" height="72" />
+          </div>
         </div>
         <div className="columns mt-3">
           <div className="one-fifth column">
@@ -52,3 +57,19 @@ export default class Admin extends Component {
     )
   }
 }
+
+function mapStateToProps (state, ownProps) {
+  return {
+    listView: state.article.listView.data
+  }
+}
+
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    dispatch,
+    ...bindActionCreators({
+    }, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admin)

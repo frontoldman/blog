@@ -57,7 +57,8 @@ function detail (state = {_id: '', nickname: '', username: '', groupId: ''}, act
         _id: action.data._id,
         username: action.data.username,
         nickname: action.data.nickname,
-        groupId: action.data.group._id
+        groupId: action.data.group._id,
+        avatar: action.data.avatar
       }
   }
   return state

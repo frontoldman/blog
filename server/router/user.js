@@ -61,11 +61,12 @@ router.post('/admin', function *(next) {
   var user = yield User.create({
     username: body.username,
     nickname: body.nickname,
+    avatar: body.avatar,
     group: body.groupId,
     password: passwordHashed
   })
 
-  var userGroup = yield UserGroup
+  yield UserGroup
     .update(
       {_id: body.groupId},
       {'$addToSet': {users: user._id}}
@@ -86,7 +87,7 @@ router.get('/admin', function *(next) {
 //  删除单个用户
 router.delete('/admin/:id', function *(next) {
   var user = yield User.findOneAndRemove({_id: this.params.id})
-  var userGroup = yield UserGroup.update({_id: user.group}, {
+  yield UserGroup.update({_id: user.group}, {
     '$pull': {users: user._id}
   })
   this.body = user
@@ -104,17 +105,22 @@ router.put('/admin/:id', function *(next) {
   var user = yield User.findOne({_id: this.params.id})
 
   //  删掉已存在UserGroup中的user id
-  var userGroup = yield UserGroup.update({_id: user.groupId}, {
+  yield UserGroup.update({_id: user.groupId}, {
     '$pull': {users: user._id}
   })
 
   //  存储user
-  user.name = body.name
+  user.username = body.username
+  user.nickname = body.nickname
+  user.avatar = body.avatar
   user.group = body.groupId
-  user.updateTime = new Date()
+
+  if (typeof body.password !== 'undefined') {
+    user.password = crypto.createHash('md5').update(body.password).digest('hex')
+  }
   yield user.save()
 
-  var group = yield UserGroup.update({_id: body.groupId}, {'$addToSet': {users: user._id}})
+  yield UserGroup.update({_id: body.groupId}, {'$addToSet': {users: user._id}})
   this.body = user
 })
 

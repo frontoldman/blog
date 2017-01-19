@@ -7,23 +7,33 @@ import { browserHistory } from 'react-router'
 import Upload from 'rc-upload'
 import Back from '../../component/Back/index'
 
+const defaultAvatar = '/avatar.png'
+
 export default class EditBase extends Component {
   constructor (props) {
     super(props)
     props.clearUser()
     this.save = this.save.bind(this)
-  }
 
-  state = {
-    username: this.props.detail.username || '',
-    password: '',
-    passwordRepeat: '',
-    groupId: this.props.detail.groupId || '',
-    nickname: this.props.detail.nickname || '',
-    valid: true,
-    uploadProps: {
-      supportServerRender: true,
-      action: '/api/upload'
+    var self = this
+
+    this.state = {
+      username: this.props.detail.username || '',
+      password: '',
+      passwordRepeat: '',
+      groupId: this.props.detail.groupId || '',
+      nickname: this.props.detail.nickname || '',
+      valid: true,
+      avatar: this.props.detail.avatar || defaultAvatar,
+      uploadProps: {
+        supportServerRender: true,
+        action: '/api/upload',
+        onSuccess (file) {
+          self.setState({
+            avatar: file[0][1].filename
+          })
+        }
+      }
     }
   }
 
@@ -40,6 +50,7 @@ export default class EditBase extends Component {
         this.state.username = detail.username
         this.state.groupId = detail.groupId
         this.state.nickname = detail.nickname
+        this.state.avatar = detail.avatar || defaultAvatar
         break
     }
   }
@@ -86,17 +97,17 @@ export default class EditBase extends Component {
       <form onSubmit={this.save}>
         <dl className="form-group">
           <dt><label>用户名</label></dt>
-          <dd><input className="form-control" value={this.state.username} onChange={ e => (this.setState({username: e.target.value}))} type="text" placeholder="输入用户组名称" /></dd>
+          <dd><input className="form-control" value={this.state.username} onChange={ e => (this.setState({username: e.target.value}))} type="text" placeholder="输入用户名称" /></dd>
         </dl>
         <dl className="form-group">
           <dt><label>昵称</label></dt>
-          <dd><input className="form-control" value={this.state.nickname} onChange={ e => (this.setState({nickname: e.target.value}))} type="text" placeholder="输入用户组名称" /></dd>
+          <dd><input className="form-control" value={this.state.nickname} onChange={ e => (this.setState({nickname: e.target.value}))} type="text" placeholder="输入用户昵称" /></dd>
         </dl>
         <dl className="form-group">
           <dt><label>头像</label></dt>
           <dd>
             <Upload {...this.state.uploadProps} component="div" style={{ display: 'inline-block' }}>
-              <img className="avatar" src="https://avatars3.githubusercontent.com/u/9919?v=3&s=144" width="72" height="72" />
+              <img className="avatar" src={this.state.avatar} width="72" height="72" />
             </Upload>
           </dd>
         </dl>

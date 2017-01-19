@@ -16,12 +16,12 @@ class UserAdd extends EditBase {
 
   save (event) {
     const { addUser } = this.props
-    const { username, password, groupId, nickname } = this.state
+    const { username, password, groupId, nickname, avatar } = this.state
 
     var isValid = super.validate()
     event.preventDefault()
     if (isValid) {
-      addUser(username, nickname, password, groupId)
+      addUser(username, nickname, avatar, password, groupId)
     }
   }
 }

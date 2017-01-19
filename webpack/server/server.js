@@ -39,6 +39,7 @@ app.use(compress({
   threshold: 2048,
   flush: zlib.Z_SYNC_FLUSH
 }))
+app.use(koaStatic(path.resolve('./public')))
 app.use(koaStatic(path.resolve('./upload')))
 
 app.use(auth)

@@ -8,10 +8,10 @@ export function clearUser () {
   return {type: constants.user.CLEAR}
 }
 
-export function addUser (username, nickname, password, groupId) {
+export function addUser (username, nickname, avatar, password, groupId) {
   return dispatch => {
     dispatch({type: constants.user.START_ADD})
-    add(username, nickname, password, groupId)
+    add(username, nickname, avatar, password, groupId)
       .then(data => {
         dispatch({type: constants.user.ADD_SUCCESS})
       })
@@ -37,9 +37,9 @@ export function getDetail (id) {
   }
 }
 
-export function saveDetail (id, username, nickname, password, groupId) {
+export function saveDetail (id, username, nickname, avatar, password, groupId) {
   return dispatch => {
-    saveDetailById(id, username, nickname, password, groupId)
+    saveDetailById(id, username, nickname, avatar, password, groupId)
       .then(data => dispatch({
         type: constants.user.ADD_SUCCESS
       }))
@@ -51,7 +51,7 @@ export function saveDetail (id, username, nickname, password, groupId) {
  * @param name 名称
  * @param des 描述
  */
-function add (username, nickname, password, groupId) {
+function add (username, nickname, avatar, password, groupId) {
   return fetch('/api/user/admin', {
     method: 'POST',
     headers: {
@@ -61,7 +61,8 @@ function add (username, nickname, password, groupId) {
       username,
       nickname,
       password,
-      groupId
+      groupId,
+      avatar
     }
   })
 }
@@ -95,7 +96,8 @@ function getDetailById (id) {
  * @param name
  * @param des
  */
-function saveDetailById (id, username, nickname, password, groupId) {
+function saveDetailById (id, username, nickname, avatar, password, groupId) {
+  console.log(groupId)
   return fetch(`/api/user/admin/${id}`, {
     method: 'PUT',
     headers: {
@@ -104,6 +106,7 @@ function saveDetailById (id, username, nickname, password, groupId) {
     body: {
       username,
       nickname,
+      avatar,
       password,
       groupId
     }

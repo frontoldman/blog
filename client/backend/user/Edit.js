@@ -17,9 +17,9 @@ class GroupEdit extends EditBase {
 
   save (event) {
     const { detail, saveDetail } = this.props
-    const { username, nickname, password, groupId } = this.state
+    const { username, nickname, password, groupId, avatar } = this.state
     event.preventDefault()
-    saveDetail(detail._id, username, nickname, password, groupId)
+    saveDetail(detail._id, username, nickname, avatar, password, groupId)
   }
 }
 

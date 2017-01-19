@@ -42,7 +42,7 @@ function parseForm (options, request) {
     form.on('aborted', done)
     form.on('file', function (name, value) {
       var json = value.toJSON()
-      json.filename = path.parse(json.path).base
+      json.filename = '/' + path.parse(json.path).base
       files.push([name, json])
     })
     form.on('end', function () {
