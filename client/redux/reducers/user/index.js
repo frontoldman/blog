@@ -64,8 +64,18 @@ function detail (state = {_id: '', nickname: '', username: '', groupId: ''}, act
   return state
 }
 
+function loginUser (state = {}, action) {
+  switch (action.type) {
+    case user.LOGIN_USER:
+      return {...action.data}
+  }
+
+  return state
+}
+
 export default combineReducers({
   changed,
   listData,
-  detail
+  detail,
+  loginUser
 })

@@ -9,6 +9,7 @@ import {Provider} from 'react-redux'
 import configureStore from '../../client/redux/store'
 import routes from '../../client/routes'
 import Html from './Html'
+import constants from '../../client/redux/constants/'
 
 const router = koaRouter()
 
@@ -39,6 +40,13 @@ const handleRender = function *(next) {
     _ctx.redirect(`${redirectLocation.pathname}${redirectLocation.search}`)
   } else if (renderProps) {
     let isomorphicComponents = getAllIsomorphicComponents(renderProps.components)
+
+    // 初始化当前登录用户
+    store.dispatch({
+      type: constants.user.LOGIN_USER,
+      data: this.session.user
+    })
+
     yield fetchComponentData(
       store.dispatch,
       isomorphicComponents,

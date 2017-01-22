@@ -6,6 +6,7 @@ var User = require('../model/User')
 router.post('/login', function *(next) {
   var body = this.request.body
   var password = crypto.createHash('md5').update(body.password).digest('hex')
+
   var user = yield User.findOne({username: body.username, password: password})
 
   if (user) {
@@ -17,7 +18,9 @@ router.post('/login', function *(next) {
     this.body = user
   } else {
     this.status = 401
-    this.body = {}
+    this.body = {
+      'message': '登录失败'
+    }
   }
 })
 
@@ -27,7 +30,9 @@ router.get('/logout', function *(next) {
     expires: util.getDate(-1)
   })
   delete this.session.user
-  this.body = {}
+  this.body = {
+    message: '退出成功'
+  }
 })
 
 module.exports = router

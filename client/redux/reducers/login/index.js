@@ -12,6 +12,11 @@ import constants from '../../constants/'
  */
 function loginStatus (state = {status: 0, user: {}}, action) {
   switch (action.type) {
+    case constants.login.CLEAR:
+      return {
+        status: 0,
+        user: {}
+      }
     case constants.login.START:
       return {
         status: 1,
