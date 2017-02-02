@@ -98,7 +98,8 @@ class Admin extends Component {
 function mapStateToProps (state, ownProps) {
   return {
     user: state.user.loginUser,
-    loginStatus: state.login.loginStatus
+    loginStatus: state.login.loginStatus,
+    system: state.system
   }
 }
 

@@ -10,7 +10,9 @@ export default class Admin extends Component {
 
   }
 
-
+  componentDidMount () {
+    console.log('parent did mount')
+  }
 
   render () {
     const {

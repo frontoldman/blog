@@ -3,6 +3,9 @@
  */
 
 export default {
+  system: {
+    SERVER_RENDERED: 'SERVER_RENDERED'
+  },
   group: {
     CLEAR: 'CLEAR_GROUP',
     START_ADD: 'START_ADD_GROUP',

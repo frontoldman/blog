@@ -39,6 +39,7 @@ class Comment extends Component {
 
   componentDidMount () {
     const { props } = this
+    console.log('child did mount')
     if (this.context.location.action === 'PUSH') {
       this.constructor.getInitData({id: props.articleId}, null, props.dispatch)
     }

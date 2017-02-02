@@ -41,6 +41,11 @@ const handleRender = function *(next) {
   } else if (renderProps) {
     let isomorphicComponents = getAllIsomorphicComponents(renderProps.components)
 
+    // 设置服务端渲染标志
+    store.dispatch({
+      type: constants.system.SERVER_RENDERED
+    })
+
     // 初始化当前登录用户
     store.dispatch({
       type: constants.user.LOGIN_USER,
