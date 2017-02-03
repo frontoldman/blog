@@ -40,3 +40,21 @@ export function getCommentList (params = {}, cookie) {
     cookie
   })
 }
+
+export function zan (params = {}) {
+  return fetch(`/api/comment/zan/${params.commentId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+export function fan (params = {}) {
+  return fetch(`/api/comment/fan/${params.commentId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}

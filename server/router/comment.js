@@ -34,4 +34,49 @@ router.get('/:articleId', function *(next) {
   this.body = comment
 })
 
+router.post('/zan/:commentId', function * (next) {
+  var { commentId } = this.params
+  var comment
+  var action
+
+  var result = yield Comment.find({
+    _id: commentId,
+    zan: this.session.user._id
+  })
+
+  if (result.length) {
+    action = 'pull'
+  } else {
+    action = 'addToSet'
+  }
+
+  /**
+   * mongoose 操作子文档数组的方法和js数组方法类似,还扩充了一些
+   * push 添加一条
+   * addToSet 也是添加一条,不过会过滤重复项
+   */
+  comment = yield Comment.update({_id: commentId}, {[`$${action}`]: {zan: this.session.user._id}})
+  this.body = comment
+})
+
+router.post('/fan/:commentId', function * (next) {
+  var { commentId } = this.params
+  var comment
+  var action
+
+  var result = yield Comment.find({
+    _id: commentId,
+    fan: this.session.user._id
+  })
+
+  if (result.length) {
+    action = 'pull'
+  } else {
+    action = 'addToSet'
+  }
+
+  comment = yield Comment.update({_id: commentId}, {[`$${action}`]: {fan: this.session.user._id}})
+  this.body = comment
+})
+
 export default router

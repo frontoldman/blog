@@ -5,7 +5,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 // import { browserHistory } from 'react-router'
-import { saveComment, getCommentList } from '../../redux/resouces/article/'
+import { saveComment, getCommentList, zan, fan } from '../../redux/resouces/article/'
 import constants from '../../redux/constants/'
 import style from './Comment_style.less'
 import util from '../../../util/'
@@ -20,6 +20,10 @@ class Comment extends Component {
     location: React.PropTypes.object.isRequired
   }
 
+  state = {
+    commentContent: ''
+  }
+
   static getInitData (params, cookie, dispatch) {
     return getCommentList({articleId: params.id}, cookie)
       .then(data => dispatch({
@@ -32,9 +36,8 @@ class Comment extends Component {
     super(props)
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this)
     this.handleCommentChange = this.handleCommentChange.bind(this)
-    this.state = {
-      commentContent: ''
-    }
+    this.handleZan = this.handleZan.bind(this)
+    this.handleFan = this.handleFan.bind(this)
   }
 
   componentDidMount () {
@@ -59,6 +62,24 @@ class Comment extends Component {
     })
   }
 
+  handleZan (commentId) {
+    zan({commentId})
+      .then(data => {
+        if (data.nModified === 1) {
+          this.fetchData()
+        }
+      })
+  }
+
+  handleFan (commentId) {
+    fan({commentId})
+      .then(data => {
+        if (data.nModified === 1) {
+          this.fetchData()
+        }
+      })
+  }
+
   fetchData () {
     const { system, articleId, dispatch } = this.props
     if (system.serverRender.flag === 1) {
@@ -73,8 +94,12 @@ class Comment extends Component {
         <ul className={style.list}>
           {comment.map((item, index) => {
             return (<li className="border mt-3 mb-3" key={item._id}>
-              <div>
-                {index + 1}楼 {util.timestampFormat(item.createTime, 'yyyy-MM-dd hh:mm')} | {item.creater.nickname}
+              <div className="clearfix">
+                <div className={style.left}>{index + 1}楼 {util.timestampFormat(item.createTime, 'yyyy-MM-dd hh:mm')} | {item.creater.nickname}</div>
+                <div className={style.right}>
+                  <span onClick={e => this.handleZan(item._id)} className={style.zan + ' border-gray-light border bg-blue-light mr-3'}>赞同({item.zan.length})</span>
+                  <span onClick={e => this.handleFan(item._id)} className={style.fan + ' border-gray-light border bg-blue-light'}>反对({item.fan.length})</span>
+                </div>
               </div>
               <div className={style.content} dangerouslySetInnerHTML={{__html: item.content}}></div>
             </li>)
