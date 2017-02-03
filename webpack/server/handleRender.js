@@ -41,11 +41,19 @@ const handleRender = function *(next) {
   } else if (renderProps) {
     let isomorphicComponents = getAllIsomorphicComponents(renderProps.components)
 
-    // 初始化当前登录用户
-    store.dispatch({
-      type: constants.user.LOGIN_USER,
-      data: this.session.user
-    })
+    // 如果没有登录
+    if (!this.session.user) {
+      store.dispatch({
+        type: constants.login.CLEAR,
+        user: {}
+      })
+    } else {
+      // 初始化当前登录用户
+      store.dispatch({
+        type: constants.login.SUCCESS,
+        user: this.session.user
+      })
+    }
 
     yield fetchComponentData(
       store.dispatch,

@@ -10,11 +10,8 @@ export function login (username, password) {
     loginFetch(username, password)
         .then(data => {
           dispatch({
-            type: constants.login.SUCCESS
-          })
-          dispatch({
-            type: constants.user.LOGIN_USER,
-            data: data
+            type: constants.login.SUCCESS,
+            user: data
           })
         }, e => {
           dispatch({

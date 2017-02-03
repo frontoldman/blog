@@ -1,10 +1,45 @@
-import React, { Component } from 'react'
+
 import 'primer-css/build/build.css'
+import AdminStyle from './Admin.less'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import constants from '../redux/constants/'
-// import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
+import { logOut } from '../redux/actions/login/'
 
 class Layout extends Component {
+  state = {
+    quitShowState: false
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  handleAvatarOver (e) {
+    this.setState({
+      quitShowState: true
+    })
+  }
+
+  handleAvatarOut (e) {
+    this.setState({
+      quitShowState: false
+    })
+  }
+
+  handleLogOut (e) {
+    const { logOut } = this.props
+    this.handleAvatarOut()
+    logOut()
+  }
+
+  componentWillReceiveProps (props) {
+    if (props.loginStatus.status === 0 && props.location.pathname !== '/login') {
+      this.context.router.push('/login')
+    }
+  }
+
   componentDidMount () {
     const { dispatch } = this.props
     dispatch({
@@ -12,23 +47,57 @@ class Layout extends Component {
     })
   }
 
-  render () {
-    const {
-      children
-    } = this.props
-
+  renderContent () {
+    const { children, user } = this.props
     return (
       <div className="container">
+        <div className="blankslate position-relative">
+          <h3>前端杂记</h3>
+          <div
+            className="position-absolute right-0 top-0 border"
+            onMouseOver={this.handleAvatarOver.bind(this)}
+            onMouseOut={this.handleAvatarOut.bind(this)}>
+            <img className="avatar" src={user.avatar} width="72" height="72" />
+            <div className={AdminStyle.tip}
+                 onClick={this.handleLogOut.bind(this)}
+                 style={{display: this.state.quitShowState ? 'block' : 'none'}}>退出登录</div>
+          </div>
+        </div>
         {children}
       </div>
     )
   }
-}
 
-function mapStateToProps () {
-  return {
+  renderLogin () {
+    return (
+      <div className="container">
+        {this.props.children}
+      </div>
+    )
+  }
 
+  render () {
+    return (
+      this.props.loginStatus.status === 0 ? this.renderLogin() : this.renderContent()
+    )
   }
 }
 
-export default connect(mapStateToProps)(Layout)
+function mapStateToProps (state, ownProps) {
+  return {
+    user: state.login.loginStatus.user,
+    loginStatus: state.login.loginStatus,
+    system: state.system
+  }
+}
+
+function mapDispatchToProps (dispatch, ownProps) {
+  return {
+    dispatch,
+    ...bindActionCreators({
+      logOut
+    }, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)
