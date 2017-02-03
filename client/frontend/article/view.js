@@ -24,17 +24,18 @@ class ArticleView extends Component {
   static isomorphicComponents = [Comment]
 
   componentDidMount () {
-    const { params, hasLoaded, dispatch } = this.props
-    if (!hasLoaded) {
+    const { params, dispatch, system } = this.props
+    if (system.serverRender.flag === 1) {
       this.constructor.getInitData(params, null, dispatch)
     }
   }
 
-  componentWillUnmount () {
-  }
-
   render () {
     const { article } = this.props
+
+    if (!article) {
+      return null
+    }
 
     return (<div className={viewStyle.article_detail}>
       <h1 className={viewStyle.title}>{article.title}</h1>
@@ -59,18 +60,16 @@ class ArticleView extends Component {
 function mapStateToProps (state, ownProps) {
   var id = ownProps.params.id
   var article = state.article.view.data.filter(article => id === article._id)
-  var hasLoaded = false
+  var system = state.system
   if (article.length) {
     article = article[0]
-    hasLoaded = true
   } else {
-    article = {}
-    hasLoaded = false
+    article = null
   }
 
   return {
     article,
-    hasLoaded
+    system
   }
 }
 

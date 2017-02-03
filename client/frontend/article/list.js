@@ -31,10 +31,14 @@ class ArticleList extends Component {
 
   constructor (props) {
     super(props)
-    if (props.location.action === 'PUSH') {
-      this.getList(props.location.query.pageNumber)
-    }
     this.changePage = this.changePage.bind(this)
+  }
+
+  componentDidMount () {
+    const { params, dispatch, system, location } = this.props
+    if (system.serverRender.flag === 1) {
+      this.constructor.getInitData(params, null, dispatch, location.query)
+    }
   }
 
   changePage (pageNumber) {
@@ -46,10 +50,6 @@ class ArticleList extends Component {
     this.constructor.getInitData({
       pageNumber
     }, null, this.props.dispatch)
-  }
-
-  componentWillUnmount () {
-
   }
 
   render () {
@@ -78,7 +78,8 @@ class ArticleList extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    listView: state.article.listView.data
+    listView: state.article.listView.data,
+    system: state.system
   }
 }
 

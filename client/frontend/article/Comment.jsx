@@ -38,10 +38,9 @@ class Comment extends Component {
   }
 
   componentDidMount () {
-    const { props } = this
-    console.log('child did mount')
-    if (this.context.location.action === 'PUSH') {
-      this.constructor.getInitData({id: props.articleId}, null, props.dispatch)
+    const { system, articleId, dispatch } = this.props
+    if (system.serverRender.flag === 1) {
+      this.constructor.getInitData({id: articleId}, null, dispatch)
     }
   }
 
@@ -97,7 +96,8 @@ class Comment extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    comment: state.article.comment
+    comment: state.article.comment,
+    system: state.system
   }
 }
 

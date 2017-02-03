@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
 import 'primer-css/build/build.css'
+import { connect } from 'react-redux'
+import constants from '../redux/constants/'
+// import { bindActionCreators } from 'redux'
 
-export default class Layout extends Component {
+class Layout extends Component {
   componentDidMount () {
-    console.log('parent did mount')
+    const { dispatch } = this.props
+    dispatch({
+      type: constants.system.SERVER_RENDERED
+    })
   }
 
   render () {
@@ -18,3 +24,11 @@ export default class Layout extends Component {
     )
   }
 }
+
+function mapStateToProps () {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps)(Layout)
