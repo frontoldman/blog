@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import constants from '../../redux/constants/'
+import util from '../../../util/'
 import { getDetailView } from '../../redux/actions/article/'
 import { getView } from '../../redux/resouces/article/'
 import Comment from './Comment'
@@ -39,6 +40,8 @@ class ArticleView extends Component {
 
     return (<div className={viewStyle.article_detail}>
       <h1 className={viewStyle.title}>{article.title}</h1>
+      <div className="text-right my-3">{article.creater.username} 创建于 {util.timestampFormat(article.createTime, 'yyyy-MM-dd hh:mm')}</div>
+      <div className="text-right text-gray-light my-3">最后一次编辑于 {util.timestampFormat(article.updateTime, 'yyyy-MM-dd hh:mm')}</div>
       <div className="columns">
         <div className="four-fifths column">
           <p className={viewStyle.content} dangerouslySetInnerHTML={{__html: article.content}}></p>
