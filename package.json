@@ -6,6 +6,7 @@
   "scripts": {
     "client:start": "babel-node webpack/client/index.js",
     "server:start": "nodemon --exec babel-node webpack/server/index.js",
+    "db:init": "babel-node ./bin/index.js",
     "start": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,8 +22,10 @@
   "author": "zr",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "co": "^4.6.0",
     "formidable": "^1.1.1",
+    "iconv-lite": "^0.4.15",
     "isomorphic-fetch": "2.2.1",
     "koa": "^1.2.4",
     "koa-bodyparser": "^2.2.0",
@@ -45,7 +48,8 @@
     "react-router-redux": "^4.0.5",
     "redux": "^3.6.0",
     "redux-logger": "^2.7.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "request": "^2.79.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
