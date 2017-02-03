@@ -38,10 +38,7 @@ class Comment extends Component {
   }
 
   componentDidMount () {
-    const { system, articleId, dispatch } = this.props
-    if (system.serverRender.flag === 1) {
-      this.constructor.getInitData({id: articleId}, null, dispatch)
-    }
+    this.fetchData()
   }
 
   handleCommentChange (e) {
@@ -55,8 +52,18 @@ class Comment extends Component {
       articleId: this.props.articleId,
       commentContent: this.state.commentContent
     }).then(data => {
-
+      this.fetchData()
+      this.setState({
+        commentContent: ''
+      })
     })
+  }
+
+  fetchData () {
+    const { system, articleId, dispatch } = this.props
+    if (system.serverRender.flag === 1) {
+      this.constructor.getInitData({id: articleId}, null, dispatch)
+    }
   }
 
   render () {

@@ -7,6 +7,8 @@ import constants from '../redux/constants/'
 import { bindActionCreators } from 'redux'
 import { logOut } from '../redux/actions/login/'
 
+const defaultAvatar = '/avatar.png'
+
 class Layout extends Component {
   state = {
     quitShowState: false
@@ -49,6 +51,8 @@ class Layout extends Component {
 
   renderContent () {
     const { children, user } = this.props
+    var avatar = user.avatar ? user.avatar : defaultAvatar
+
     return (
       <div className="container">
         <div className="blankslate position-relative">
@@ -57,7 +61,7 @@ class Layout extends Component {
             className="position-absolute right-0 top-0 border"
             onMouseOver={this.handleAvatarOver.bind(this)}
             onMouseOut={this.handleAvatarOut.bind(this)}>
-            <img className="avatar" src={user.avatar} width="72" height="72" />
+            <img className="avatar" src={avatar} width="72" height="72" />
             <div className={AdminStyle.tip}
                  onClick={this.handleLogOut.bind(this)}
                  style={{display: this.state.quitShowState ? 'block' : 'none'}}>退出登录</div>
