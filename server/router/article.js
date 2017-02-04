@@ -77,6 +77,7 @@ function *queryList (query, pageSize, pageNumber) {
       .find(query)
       .skip((pageNumber - 1) * pageSize)
       .limit(pageNumber * pageSize)
+      .sort({ createTime: 1 })
       .populate('creater', 'nickname')
   }
 

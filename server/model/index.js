@@ -11,6 +11,7 @@ function startDB (fn) {
   var connection = mongoose.connect(db.url, error => {
     if (error) {
       console.log(error)
+      fn(error)
       return
     }
     console.log(`connect to db on ${db.url}`)

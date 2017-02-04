@@ -6,7 +6,12 @@ import url from 'url'
 import request from 'request'
 import $ from 'cheerio'
 import iconv from 'iconv-lite'
+import co from 'co'
+import startDB from '../server/model/'
 import Article from '../server/model/Article'
+
+// var r = parseInt("&#x662F;", 16)
+// console.log(r)
 
 var chunks = []
 var size = 0
@@ -23,12 +28,17 @@ request
     result = $('table[bgcolor="#d4d0c8"] tr[bgcolor="#ffffff"] td a', result[0])
     var articles = []
     var getSize = 0
+    console.log('抓取列表成功')
+
     result.each((index, item) => {
-      articles.push({})
       var href = $(item).attr('href')
+      articles.push({
+        href
+      })
       href = url.resolve('http://www.kanunu8.com/wuxia/201102/', href)
       var chunks = []
       var size = 0
+      console.log(`${href} 开始抓取`)
       request.get(href)
         .on('data', function (chunk) {
           chunks.push(chunk)
@@ -38,19 +48,44 @@ request
           var data = getData(chunks, size)
           var str = iconv.decode(data, 'gbk')
           var $title = $('table h2 font', str)
-          articles[index].title = $title.html()
+          articles[index].title = $title[0].children[0].data
           var $content = $('table p', str)
-          articles[index].content = $content.html()
+          var content = $content[0].children.map(child => child.data).join('')
+          articles[index].content = content
           articles[index].creater = '5809b6c6e048547e2f54603a'
           getSize++
 
-          if (getSize === articles.length) {
-            console.log('get success')
+          console.log(`${href} 抓取成功`)
+          console.log(getSize)
 
-            Article.create(articles)
-              .then(e => console.log('save success'))
+          if (getSize === articles.length) {
+            console.log('获取详情成功')
+
+            co(function *() {
+              yield startDB
+              var p = articles.forEach(function *(article) {
+                yield Article.create(article)
+              })
+
+              for(var i = 0;i<articles.length;i++){
+                console.log(articles[i].title)
+                yield Article.create(articles[i])
+                yield sleep
+              }
+
+              function sleep (fn) {
+                setTimeout(() => fn(), 100)
+              }
+
+
+              console.log('保存成功')
+            }).catch(e => console.log(e))
+
+
           }
         })
+
+      // return false
     })
   })
 
