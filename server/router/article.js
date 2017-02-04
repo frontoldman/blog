@@ -76,7 +76,7 @@ function *queryList (query, pageSize, pageNumber) {
     return Article
       .find(query)
       .skip((pageNumber - 1) * pageSize)
-      .limit(pageNumber * pageSize)
+      .limit(pageSize)
       .sort({ createTime: 1 })
       .populate('creater', 'nickname')
   }
