@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "client:start": "babel-node webpack/client/index.js",
-    "db:init": "babel-node ./bin/index.js",
+    "db:init": "babel-node ./bin/start.js",
+    "db:article": "babel-node ./bin/article.js",
     "server:start": "nodemon --exec babel-node webpack/server/index.js",
     "start": "",
     "test": "echo \"Error: no test specified\" && exit 1"

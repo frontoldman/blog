@@ -9,10 +9,10 @@ import iconv from 'iconv-lite'
 import co from 'co'
 import startDB from '../server/model/'
 import Article from '../server/model/Article'
+import User from '../server/model/User'
 
 // var r = parseInt("&#x662F;", 16)
 // console.log(r)
-
 var chunks = []
 var size = 0
 request
@@ -52,7 +52,7 @@ request
           var $content = $('table p', str)
           var content = $content[0].children.map(child => child.data).join('')
           articles[index].content = content
-          articles[index].creater = '5809b6c6e048547e2f54603a'
+          // articles[index].creater = '5809b6c6e048547e2f54603a'
           getSize++
 
           console.log(`${href} 抓取成功`)
@@ -63,13 +63,15 @@ request
 
             co(function *() {
               yield startDB
-              var p = articles.forEach(function *(article) {
-                yield Article.create(article)
-              })
+
+              var user = yield User.findOne({username: 'admin'})
 
               for(var i = 0;i<articles.length;i++){
                 console.log(articles[i].title)
-                yield Article.create(articles[i])
+                yield Article.create({
+                  ...articles[i],
+                  creater: user._id
+                })
                 yield sleep
               }
 
@@ -77,9 +79,12 @@ request
                 setTimeout(() => fn(), 100)
               }
 
-
               console.log('保存成功')
-            }).catch(e => console.log(e))
+              process.exit()
+            }).catch(e => {
+              console.log(e)
+              process.exit()
+            })
 
 
           }

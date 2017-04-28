@@ -26,6 +26,8 @@ router.post('/', function *(next) {
 // 获取文章列表
 router.get('/', function *(next) {
   var { pageSize, pageNumber } = this.query
+  pageSize = parseInt(pageSize, 10)
+  pageNumber = parseInt(pageNumber, 10)
   this.body = yield *queryList({}, pageSize, pageNumber)
 })
 
@@ -76,7 +78,7 @@ function *queryList (query, pageSize, pageNumber) {
     return Article
       .find(query)
       .skip((pageNumber - 1) * pageSize)
-      .limit(pageSize)
+      .limit(pageSize*1)
       .sort({ createTime: 1 })
       .populate('creater', 'nickname')
   }
